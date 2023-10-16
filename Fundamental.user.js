@@ -182,12 +182,11 @@ let vacuumCycleInterval = 20000 // do not change, needed for first cycle after a
 var vacuumCycle = setInterval(function() {
     if (doVacuumCycle && enableAll) {
         vacuumCycleFunc();
-    }
+    };
 }, vacuumCycleInterval);
 
 var buyAll = setInterval(function(){
     toggleCheck = [enableAll, enableBuildingsBuy, enableUpgrades, doVacuumCycle];
-
 
     if (enableAll) {
 //Only used for microworld reset checks if auto is not bought yet, also there's another check inside the microworld function.
@@ -255,8 +254,8 @@ function vacuumCycleFunc () {
             if (doVacuumCycle) {doVacuumCycleBtn.click()};
         };
 
-        cycleStep = cycleStepInput.value
-        var cycle = 0
+        cycleStep = cycleStepInput.value;
+        var cycle = 0;
         unlockedStageButtons = document.querySelectorAll('[id*="Switch"]:not(.stageText):not([style="display: none;"])')
         unlockedStageButtons.forEach(stage => {
             setTimeout (function() {
@@ -271,11 +270,11 @@ function vacuumCycleFunc () {
             setTimeout (function() {
                 if (doVacuumCycle && enableAll) {document.getElementById('stageTabBtn').click()};
             }, cycleStep*cycle+cycleStep/3+500);
-            cycle += 1
+            cycle += 1;
         });
 
-        clearInterval(vacuumCycle)
-        vacuumCycleInterval = cycleStep*unlockedStageButtons.length + 1000
+        clearInterval(vacuumCycle);
+        vacuumCycleInterval = cycleStep*unlockedStageButtons.length + 1000;
 
         vacuumCycle = setInterval(function() {
             if (doVacuumCycle && enableAll) {
@@ -349,7 +348,8 @@ function microworldBuyReset() {
         document.getElementById('challengeMultiline').innerText.includes('Void, active')) {
         if (parseFloat(document.getElementById('preonCapTill').innerText) >= preonLimit &&
             document.getElementById('toggleBuilding1').innerText.includes('Auto ON') &&
-            saveMass) {
+            saveMass && maxClouds >= cloudGoalInput.value &&
+            (document.getElementById('stageWord').innerText.includes('Interstellar') || document.getElementById('stageWord').innerText.includes('Intergalactic'))) {
             document.getElementById('toggleBuilding1').click();
         } else if (document.getElementById('toggleBuilding1').innerText.includes('Auto OFF') &&
             (!saveMass || parseFloat(document.getElementById('preonCapTill').innerText) < preonLimit)) {
@@ -415,7 +415,7 @@ function submergedBuyReset() {
                 };
             };
         });
-        if (parseFloat(document.getElementById('footerStat3Span').innerText) == 0 &&
+        if (parseFloat(document.getElementById('footerStat3Span').innerText) < 100 &&
             document.getElementById('toggleBuilding0').innerText.includes('All OFF')) {
             document.getElementById('toggleBuilding0').click();
         };
@@ -530,6 +530,7 @@ function accretionBuyReset() {
         } else {
             if (parseFloat(document.getElementById('dustCapTill').innerText) >= accretionLimit &&
                 document.getElementById('toggleBuilding0').innerText.includes('All ON') && saveMass &&
+                maxClouds >= cloudGoalInput.value &&
                 (document.getElementById('stageWord').innerText.includes('Interstellar') || document.getElementById('stageWord').innerText.includes('Intergalactic'))) {
                 document.getElementById('toggleBuilding0').click();
             } else if (document.getElementById('toggleBuilding0').innerText.includes('All OFF') && (!saveMass ||
@@ -624,6 +625,8 @@ function interstellarBuyReset() {
                 parseFloat(document.getElementById('reset1Button').innerText.split(' ')[2]) > parseFloat(document.getElementById('footerStat1Span').innerText) &&
                 parseFloat(document.getElementById('reset1Button').innerText.split(' ')[2])/parseFloat(document.getElementById('footerStat1Span').innerText) > vacuumInterstellarMassReset) {
                 document.getElementById('reset1Button').click();
+                if (!enableBuildingsBuy) {enableBuildingsBuyBtn.click()};
+                if (!enableUpgrades) {enableUpgradesBtn.click()};
             };
         };
     } else {
@@ -634,6 +637,8 @@ function interstellarBuyReset() {
             document.getElementById('currentSwitch').innerText.includes('Intergalactic'))) {
             if (parseFloat(document.getElementById('reset1Button').innerText.split(' ')[2]) > parseFloat(document.getElementById('footerStat1Span').innerText)*interstellarMassReset) {
                 document.getElementById('reset1Button').click();
+                if (!enableBuildingsBuy) {enableBuildingsBuyBtn.click()};
+                if (!enableUpgrades) {enableUpgradesBtn.click()};
             };
         };
     };
