@@ -1,10 +1,15 @@
 
-16/10/23 v.1.1.1
-- added check for Cycling to stop when whole script disabled
-- fixed automation turning ON if you don't have Save mass enabled
+16/10/23 v.1.1.3
+- Preon turning OFF for mass saving now triggers after 100k Energy for smoother progression to next Collapse
+
+16/10/23 v.1.1.2
 - minor script behaviour fixes
 - Save mass now only triggers once Cloud goal is reached
 - added some more checks for cornerstone situations
+
+16/10/23 v.1.1.1
+- added check for Cycling to stop when whole script disabled
+- fixed automation turning ON if you don't have Save mass enabled
 
 13/10/23 v.1.1.0
 - added buttons and input fields (have tips on what they do) to better control script **MUCH thanks to Tobes!!!**

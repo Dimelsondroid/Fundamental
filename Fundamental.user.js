@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Fundamental v.0.1.7
-// @version      1.1.2
+// @version      1.1.3
 // @description  Automation for most parts of the game before you get in-game automations, tested up to and including Void.
 // @downloadURL  https://github.com/Dimelsondroid/Fundamental/raw/main/Fundamental.user.js
 // @updateURL    https://github.com/Dimelsondroid/Fundamental/raw/main/Fundamental.user.js
@@ -348,7 +348,8 @@ function microworldBuyReset() {
         if (parseFloat(document.getElementById('preonCapTill').innerText) >= preonLimit &&
             document.getElementById('toggleBuilding1').innerText.includes('Auto ON') &&
             saveMass && maxClouds >= cloudGoalInput.value &&
-            (document.getElementById('stageWord').innerText.includes('Interstellar') || document.getElementById('stageWord').innerText.includes('Intergalactic'))) {
+            (document.getElementById('stageWord').innerText.includes('Interstellar') || document.getElementById('stageWord').innerText.includes('Intergalactic')) &&
+            parseFloat(document.getElementById('footerStat2Span').innerText) > 100000) {
             document.getElementById('toggleBuilding1').click();
         } else if (document.getElementById('toggleBuilding1').innerText.includes('Auto OFF') &&
             (!saveMass || parseFloat(document.getElementById('preonCapTill').innerText) < preonLimit)) {
