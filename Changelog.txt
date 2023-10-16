@@ -1,0 +1,30 @@
+
+16/10/23 v.1.1.1
+- added check for Cycling to stop when whole script disabled
+- fixed automation turning ON if you don't have Save mass enabled
+
+13/10/23 v.1.1.0
+- added buttons and input fields (have tips on what they do) to better control script **MUCH thanks to Tobes!!!**
+- now buttons' backgrounds are darker green\red depending on state for better visual control.
+- reformated script to work with new buttons\input fields.
+- 'vacuumCloudMulti' renamed to 'cloudMultiplier' and now also used for pre-Vacuum Vaporization.
+- now new buildings' auto-toggles are turned ON if not 'Saving mass' to prevent stale.
+- set initial multiplier for Vacuum Vaporization to triple what you have. First Vap. should give you visual 2+ Clouds.
+- fix for Save mass not working as intended.
+
+12/10/23 v.1.0.2
+- added 'cycleReset' variable to be able to stop vacuum cycling in console. Type 'cycleReset = 1' in console,
+it's value will automatically return to 0 after stopping cycle.
+- cycling now stops switching when you turn it off instead of finishing cycle.
+But continues at next tabs if you turn it back before end of current cycle.
+- script auto building now uses in-game inputted delay when you have at least 1 lvl in Strangeness 'More toggles',
+otherwise it is usual double-price.
+- "Advanced" tab - now also takes active Void into account, if you are not in Void - exit Advanced tab only after
+moving mouse over Vacuum image or script might work incorrectly.
+- added 'stageResetEnable' variable to enable\disable (1\0) auto-stage resets. Only console manageable.
+And a check if you have Strangeness auto-stage upgrade so you don't have to worry disabling this.
+- changed Cloud reset logic a bit and added additional checks. Commented out 'vacuumCloudMulti' from Submerged Cloud
+accumulation condition and from auto-Stage reset for now. Added turning off auto-Enchancements when accumulating Clouds.
+
+10/10/23 v.1.0.1
+- Mass saving toggle now works in Accretion without Strangeness 'More toggles' upgrade.

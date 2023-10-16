@@ -24,7 +24,7 @@ All new buildings without Auto are prioritized to get until it's 5 of them.
 Do not forget to switch off Reset confirmation for stages you want if you don't have automation.
 
 Auto-Stage reset is triggered when cloudGoalInput field value goal is reached as an additional condition to getting Iron element.
-There's 'Stage reset' toggle as well. 
+There's 'Stage reset' toggle as well.\
 **Currently implemented only for Vacuum stage of the game and not tested pre-Vacuum**
 
 All script auto-resets are turned on, be aware before commiting script to console, look for 'do...Reset' variables to change initial state - true\false.
