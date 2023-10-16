@@ -2,8 +2,8 @@
 // @name         Fundamental v.0.1.7
 // @version      1.1.1
 // @description  Automation for most parts of the game before you get in-game automations, tested up to and including Void.
-// @downloadURL  https://github.com/Dimelsondroid/Fundamental/blob/main/Fundamental.js
-// @updateURL    https://github.com/Dimelsondroid/Fundamental/blob/main/Fundamental.js
+// @downloadURL  https://github.com/Dimelsondroid/Fundamental/blob/main/Fundamental.user.js
+// @updateURL    https://github.com/Dimelsondroid/Fundamental/blob/main/Fundamental.user.js
 // @author       Dimelsondroid
 // @match        https://awwhy.github.io/Fundamental*
 // ==/UserScript==
