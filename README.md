@@ -4,7 +4,7 @@ Automation script for Fundamental 0.1.7
 Installation:
 https://github.com/Dimelsondroid/Fundamental/raw/main/Fundamental.user.js
 
-Current script version - 1.1.1
+Current script version - 1.1.2
 
 Credits goes to awWhy for making this wonderful game and Tobes for helping with code parts :)
 
