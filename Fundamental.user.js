@@ -2,8 +2,8 @@
 // @name         Fundamental v.0.1.7
 // @version      1.1.1
 // @description  Automation for most parts of the game before you get in-game automations, tested up to and including Void.
-// @downloadURL  https://github.com/Dimelsondroid/Fundamental/blob/main/Fundamental.user.js
-// @updateURL    https://github.com/Dimelsondroid/Fundamental/blob/main/Fundamental.user.js
+// @downloadURL  https://github.com/Dimelsondroid/Fundamental/raw/main/Fundamental.user.js
+// @updateURL    https://github.com/Dimelsondroid/Fundamental/raw/main/Fundamental.user.js
 // @author       Dimelsondroid
 // @match        https://awwhy.github.io/Fundamental*
 // ==/UserScript==
@@ -232,8 +232,7 @@ var buyAll = setInterval(function(){
             document.getElementById('stageReset').innerText.includes('Return back to start') && stageResetEnable &&
             parseFloat(document.getElementById('strange3Stage5Level').innerText) == 0) {
             document.getElementById('stageReset').click();
-            if (!enableBuildingsBuy) {enableBuildingsBuyBtn.click()};
-            if (!enableUpgrades) {enableUpgradesBtn.click()};
+            restoreToggles();
             maxClouds = 1;
         };
 
@@ -288,12 +287,12 @@ function buyableEnchancements() {
 //works dumb, simply trying to buy anything first available
 //checks if you already have automations included
     if (parseFloat(document.getElementById('strange7Stage3Level').innerText) < 3) {
-        var allUpgrades = document.getElementById('upgrades').querySelectorAll('.interactiveImage:not([tabindex="-1"])')
+        var allUpgrades = document.getElementById('upgrades').querySelectorAll('.interactiveImage:not([tabindex="-1"])');
         allUpgrades.forEach(upgrade => {
             upgrade.click();
         });
 
-        var allResearch = document.getElementById('researchSubtabResearches').querySelectorAll('.interactiveImage:not([tabindex="-1"])')
+        var allResearch = document.getElementById('researchSubtabResearches').querySelectorAll('.interactiveImage:not([tabindex="-1"])');
         allResearch.forEach(research => {
             research.click();
         });
@@ -302,7 +301,7 @@ function buyableEnchancements() {
     if (parseFloat(document.getElementById('strange5Stage4Level').innerText) == 0) {
         if (document.getElementById('stageWord').innerText.includes('Interstellar') ||
             document.getElementById('stageWord').innerText.includes('Intergalactic')) {
-            var allElements = document.getElementById('researchSubtabElements').querySelectorAll('.interactiveImage:not([tabindex="-1"])')
+            var allElements = document.getElementById('researchSubtabElements').querySelectorAll('.interactiveImage:not([tabindex="-1"])');
             allElements.forEach(element => {
                 element.click();
             });
@@ -326,7 +325,7 @@ function microworldBuyReset() {
             if (!saveMass && building.innerText.includes('Auto OFF')) {
                 document.getElementById('toggleBuilding'+buildingId).click();
             };
-            if (building.innerText.includes('Auto ON') ||  building.innerText.includes('Auto OFF')) {return;};
+            if (building.innerText.includes('Auto ON') ||  building.innerText.includes('Auto OFF')) {return};
             if (parseFloat(document.getElementById('building'+buildingId+'Cur').innerText) <= 5) {
                 building.querySelector('button').click();
             };
@@ -376,10 +375,12 @@ function microworldBuyReset() {
             document.getElementById('reset1Button').click();
             microEnergyCount = 0;
             maxEnergy = 0;
+            restoreToggles();
         } else if (dischargeGoal > currentEnergy && microEnergyCount >= 1) {
             document.getElementById('reset1Button').click();
             microEnergyCount = 0;
             maxEnergy = 0;
+            restoreToggles();
         };
     };
 };
@@ -401,7 +402,7 @@ function submergedBuyReset() {
             if (!saveMass && building.innerText.includes('Auto OFF')) {
                 document.getElementById('toggleBuilding'+buildingId).click();
             };
-            if (building.innerText.includes('Auto ON') || building.innerText.includes('Auto OFF')) {return;};
+            if (building.innerText.includes('Auto ON') || building.innerText.includes('Auto OFF')) {return};
             if (parseFloat(document.getElementById('building'+buildingId+'Cur').innerText) <= 5) {
                 building.querySelector('button').click();
             };
@@ -459,12 +460,12 @@ function submergedBuyReset() {
                 if (document.getElementById('toggleBuilding0').innerText.includes('All OFF')) {
                     document.getElementById('toggleBuilding0').click();
                 };
-                if (!enableBuildingsBuy) {enableBuildingsBuyBtn.click()};
-                if (!enableUpgrades) {enableUpgradesBtn.click()};
+                restoreToggles();
             };
         } else {
             if (cloudResetFor >= currentCloud*cloudMultiplier) {
                 document.getElementById('reset1Button').click();
+                restoreToggles();
             };
         };
 
@@ -498,7 +499,7 @@ function accretionBuyReset() {
             if (!saveMass && building.innerText.includes('Auto OFF')) {
                 document.getElementById('toggleBuilding'+buildingId).click();
             };
-            if (building.innerText.includes('Auto ON') || building.innerText.includes('Auto OFF')) {return;};
+            if (building.innerText.includes('Auto ON') || building.innerText.includes('Auto OFF')) {return};
             if (parseFloat(document.getElementById('building'+buildingId+'Cur').innerText) <= 5) {
                 building.querySelector('button').click();
             };
@@ -549,6 +550,7 @@ function accretionBuyReset() {
         currentMass = parseFloat(document.getElementById('footerStat1Span').innerText);
         if (massToReset < currentMass*1.5) {
             document.getElementById('reset1Button').click();
+            restoreToggles();
         };
     };
 };
@@ -569,11 +571,7 @@ function interstellarBuyReset() {
             if (!saveMass && building.innerText.includes('Auto OFF')) {
                 document.getElementById('toggleBuilding'+buildingId).click();
             };
-            if (building.innerText.includes('Auto ON') || building.innerText.includes('Auto OFF')) {return;};
-            if (!saveMass && building.innerText.includes('Auto OFF')) {
-                document.getElementById('toggleBuilding'+buildingId).click();
-                return;
-            };
+            if (building.innerText.includes('Auto ON') || building.innerText.includes('Auto OFF')) {return};
             if (parseFloat(document.getElementById('building'+buildingId+'Cur').innerText) <= 5) {
                 building.querySelector('button').click();
             };
@@ -595,14 +593,10 @@ function interstellarBuyReset() {
             if (!saveMass && building.innerText.includes('Auto OFF')) {
                 document.getElementById('toggleBuilding'+buildingId).click();
             };
-            if (building.innerText.includes('Auto ON') || building.innerText.includes('Auto OFF')) {return;}
+            if (building.innerText.includes('Auto ON') || building.innerText.includes('Auto OFF')) {return}
             currentElements = parseFloat(document.getElementById('footerStat2Span').innerText);
             currentBuildingCost = parseFloat(building.querySelector('button').innerText.split(' ')[1]);
             buildingId = parseInt(building.id.split('building')[1]);
-            if (!saveMass && building.innerText.includes('Auto OFF')) {
-                document.getElementById('toggleBuilding'+buildingId).click();
-                return;
-            };
             if (parseFloat(document.getElementById('building'+buildingId+'Cur').innerText) <= 5) {
                 building.querySelector('button').click();
             };
@@ -625,8 +619,7 @@ function interstellarBuyReset() {
                 parseFloat(document.getElementById('reset1Button').innerText.split(' ')[2]) > parseFloat(document.getElementById('footerStat1Span').innerText) &&
                 parseFloat(document.getElementById('reset1Button').innerText.split(' ')[2])/parseFloat(document.getElementById('footerStat1Span').innerText) > vacuumInterstellarMassReset) {
                 document.getElementById('reset1Button').click();
-                if (!enableBuildingsBuy) {enableBuildingsBuyBtn.click()};
-                if (!enableUpgrades) {enableUpgradesBtn.click()};
+                restoreToggles();
             };
         };
     } else {
@@ -637,9 +630,14 @@ function interstellarBuyReset() {
             document.getElementById('currentSwitch').innerText.includes('Intergalactic'))) {
             if (parseFloat(document.getElementById('reset1Button').innerText.split(' ')[2]) > parseFloat(document.getElementById('footerStat1Span').innerText)*interstellarMassReset) {
                 document.getElementById('reset1Button').click();
-                if (!enableBuildingsBuy) {enableBuildingsBuyBtn.click()};
-                if (!enableUpgrades) {enableUpgradesBtn.click()};
+                restoreToggles();
             };
         };
     };
+};
+
+function restoreToggles() {
+    if (!enableBuildingsBuy) {enableBuildingsBuyBtn.click()};
+    if (!enableUpgrades) {enableUpgradesBtn.click()};
+    return
 };
