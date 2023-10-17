@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Fundamental v.0.1.7
-// @version      1.1.3
+// @version      1.2.0
 // @description  Automation for most parts of the game before you get in-game automations, tested up to and including Void.
 // @downloadURL  https://github.com/Dimelsondroid/Fundamental/raw/main/Fundamental.user.js
 // @updateURL    https://github.com/Dimelsondroid/Fundamental/raw/main/Fundamental.user.js
@@ -105,6 +105,20 @@ cloudGoalInput.type = 'number';
 cloudGoalInput.title = 'Set it at 0 before reaching Vacuum. Cloud goal before starting Collapses, also goal for Stage resets';
 cloudGoalInput.value = 10000;
 
+let cloudMultiplierInput = document.createElement('input');
+cloudMultiplierInput.id = "cloudMultiplierInput";
+cloudMultiplierInput.style.cssText = auto_btn_style;
+cloudMultiplierInput.type = 'number';
+cloudMultiplierInput.title = 'Cloud goal multiplier for Vaporization';
+cloudMultiplierInput.value = 9;
+
+let startCloudSaveupDividerInput = document.createElement('input');
+startCloudSaveupDividerInput.id = "cloudSaveupDividerInput";
+startCloudSaveupDividerInput.style.cssText = auto_btn_style;
+startCloudSaveupDividerInput.type = 'number';
+startCloudSaveupDividerInput.title = 'A divider based on current Clouds on when to start Saving Drops for Vaporization. "1.5" means that Submerged buying will be turned off at 2/3 of current Clouds';
+startCloudSaveupDividerInput.value = 1.5;
+
 let stageResetBtn = document.createElement('button');
 stageResetBtn.id = "stageReset";
 stageResetBtn.style.cssText = auto_btn_style;
@@ -127,6 +141,8 @@ myAutoArea.appendChild(doVacuumCycleBtn);
 myAutoArea.appendChild(cycleStepInput);
 myAutoArea.appendChild(saveMassBtn);
 myAutoArea.appendChild(cloudGoalInput);
+myAutoArea.appendChild(cloudMultiplierInput);
+myAutoArea.appendChild(startCloudSaveupDividerInput);
 myAutoArea.appendChild(stageResetBtn);
 
 //Automation variables
@@ -154,8 +170,8 @@ var submergedCloudMultyMid = 9 // multy for Clouds under 1e10
 var submergedCloudMultyHigh = 9 // multy for Clouds over 1e10
     //Vacuum
 var maxClouds = 1 // do not change
-var cloudMultiplier = 2 // separate multy as it is quite hard to get clouds in vacuum, '1' is doubling current Clouds (get same amount as now), probably slower than with bigger multi but gives you some auto 'Cloud progress' before Collapsing. Tune it for you own style.
-var startCloudSaveupDivider = 1.5 // should be over 1, the bigger it is - the sooner all buying in Submerged will be turned off, keep in mind that less buildings will be bought to produce Drops and speed up accumulation of Clouds
+// cloudMultiplier = 2 // '1' is doubling current Clouds (get same amount as now), probably slower than with bigger multi but gives you some auto 'Cloud progress' before Collapsing. Tune it for you own style.
+// startCloudSaveupDivider = 1.5 // should be over 1, the bigger it is - the sooner all buying in Submerged will be turned off, keep in mind that less buildings will be bought to produce Drops and speed up accumulation of Clouds
 // these 2 are somewhat connected, the bigger 'startCloudSaveupDivider' you have the longer it might take to reach 'cloudMultiplier' to do Vaporization.
 
 //Accretion
@@ -227,7 +243,7 @@ var buyAll = setInterval(function(){
             interstellarBuyReset();
         };
 
-//Auto-Stage reset
+//Auto-Stage reset, mostly Vacuum
         if (document.getElementById('stageWord').innerText.includes('Intergalactic') && maxClouds > cloudGoalInput.value &&
             document.getElementById('stageReset').innerText.includes('Return back to start') && stageResetEnable &&
             parseFloat(document.getElementById('strange3Stage5Level').innerText) == 0) {
@@ -235,6 +251,15 @@ var buyAll = setInterval(function(){
             restoreToggles();
             maxClouds = 1;
         };
+//Auto-Stage reset, pre-Vacuum
+        if ((!document.getElementById('challengeMultiline').innerText.includes('Vacuum state: true') ||
+            !document.getElementById('challengeMultiline').innerText.includes('Void, active')) &&
+            document.getElementById('stageReset').innerText.includes('Enter next Stage') && stageResetEnable &&
+            parseFloat(document.getElementById('strange3Stage5Level').innerText) == 0) {
+            document.getElementById('stageReset').click();
+            restoreToggles();
+            maxClouds = 1;
+            };
 
 //Check if Buy 1 is active and switch to it if necessary, looks convenient to me and helps buy buildings
 //Comment this "if" if not needed. Currently input field used to manupulate script toggle statuses (description is in the beginning)
@@ -343,8 +368,9 @@ function microworldBuyReset() {
     };
 
 //Vacuum part, check if cap reached to turn off preons
-    if (document.getElementById('challengeMultiline').innerText.includes('Vacuum state: true') ||
-        document.getElementById('challengeMultiline').innerText.includes('Void, active')) {
+    if ((document.getElementById('challengeMultiline').innerText.includes('Vacuum state: true') ||
+        document.getElementById('challengeMultiline').innerText.includes('Void, active')) &&
+        parseFloat(document.getElementById('strange11Stage1Level').innerText) == 0) {
         if (parseFloat(document.getElementById('preonCapTill').innerText) >= preonLimit &&
             document.getElementById('toggleBuilding1').innerText.includes('Auto ON') &&
             saveMass && maxClouds >= cloudGoalInput.value &&
@@ -431,7 +457,7 @@ function submergedBuyReset() {
     if (maxClouds < cloudGoalInput.value &&
         (document.getElementById('stageWord').innerText.includes('Interstellar') || document.getElementById('stageWord').innerText.includes('Intergalactic')) &&
         document.getElementById('reset1Button').innerText.includes('Clouds') &&
-        parseFloat(document.getElementById('reset1Button').innerText.split(' ')[2]) >= maxClouds/startCloudSaveupDivider &&
+        parseFloat(document.getElementById('reset1Button').innerText.split(' ')[2]) >= maxClouds/startCloudSaveupDividerInput.value &&
         (document.getElementById('challengeMultiline').innerText.includes('Vacuum state: true') || document.getElementById('challengeMultiline').innerText.includes('Void, active'))) {
         if (enableBuildingsBuy) {enableBuildingsBuyBtn.click()};
         if (enableUpgrades) {enableUpgradesBtn.click()};
@@ -456,7 +482,7 @@ function submergedBuyReset() {
         };
         if (document.getElementById('challengeMultiline').innerText.includes('Vacuum state: true') ||
             document.getElementById('challengeMultiline').innerText.includes('Void, active')) {
-            if (cloudResetFor >= currentCloud*cloudMultiplier) {
+            if (cloudResetFor >= currentCloud*cloudMultiplierInput.value) {
                 document.getElementById('reset1Button').click();
                 if (document.getElementById('toggleBuilding0').innerText.includes('All OFF')) {
                     document.getElementById('toggleBuilding0').click();
@@ -464,7 +490,7 @@ function submergedBuyReset() {
                 restoreToggles();
             };
         } else {
-            if (cloudResetFor >= currentCloud*cloudMultiplier) {
+            if (cloudResetFor >= currentCloud*cloudMultiplierInput.value) {
                 document.getElementById('reset1Button').click();
                 restoreToggles();
             };

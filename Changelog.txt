@@ -1,4 +1,9 @@
 
+17/10/23 v.1.2.0
+- Added auto-Stage for pre-Vacuum
+- Added inputs for Cloud goal (Vaporization) and a diviver as to when start saving for more Clouds on Vaporization
+- Save mass for Preons now checks corresponding Strangeness upgrade
+
 16/10/23 v.1.1.3
 - Preon turning OFF for mass saving now triggers after 100k Energy for smoother progression to next Collapse
 
