@@ -4,14 +4,15 @@ Automation script for Fundamental 0.1.7
 Installation in Tampermonkey:
 https://github.com/Dimelsondroid/Fundamental/raw/main/Fundamental.user.js
 
-Current script version - 1.2.0\
+Current script version - 1.2.1\
 Will be updated upon reaching new parts of the game or if I feel something should be changed.
 
 Credits goes to awWhy for making this wonderful game and Tobes for helping with code parts :)
 
-For Fundomental v.0.1.7 Vacuum --> pre-Intergalactic --> Void (with some limitations)
+For Fundomental v.0.1.7 pre-Vacuum --> Vacuum --> pre-Intergalactic --> Void (with some limitations)
 
-The code is not perfect and do not take all situations into account, expect disappointment on some occasions :)
+The code is not perfect and do not take all situations into account, expect disappointment on some occasions :)\
+Buttons and Inputs have some popup tips. And some are hidden till a point.
 
 Not sure now how it will perform pre-Vacuum as initial pre-Vacuum working code was modified... Currently testing pre-Vacuum on the Fundamental test server.
 Also do not know how it will perform when Vacuum Intergalactic is bought, but by that time you should have most automations bought in Strangeness I guess and script might not be needed.
@@ -26,9 +27,7 @@ Do not forget to switch off Reset confirmation for stages you want if you don't 
 
 Auto-Stage reset is triggered when cloudGoalInput field value goal is reached as an additional condition to getting Iron element.
 There's 'Stage reset' toggle as well.\
-**pre-Vacuum do turn off confirmations before toggling 'Stage reset' button or it might softlock the game till you confirm stage reset or reload the page. Alternatively - set 'stageResetEnable = false' in console**
+**do turn off confirmations before toggling 'Stage reset' button or it might softlock the game with popup window till you confirm stage reset or reload the page. Alternatively - set 'stageResetEnable = false' in console**
 
 All script auto-resets are turned on, be aware before commiting script to console, look for 'do...Reset' variables to change initial state - true\false.\
 Save mass should not be needed pre-Vacuum.
-
-Some variables (till 'end of variables' comment) can be changed in console if needed and for personal tuning.

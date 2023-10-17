@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Fundamental v.0.1.7
-// @version      1.2.0
+// @version      1.2.1
 // @description  Automation for most parts of the game before you get in-game automations, tested up to and including Void.
 // @downloadURL  https://github.com/Dimelsondroid/Fundamental/raw/main/Fundamental.user.js
 // @updateURL    https://github.com/Dimelsondroid/Fundamental/raw/main/Fundamental.user.js
@@ -16,7 +16,7 @@ myAutoArea.id = "automationArea";
 myAutoArea.setAttribute("aria-label", "Automation");
 document.querySelector("#footerMain").appendChild(myAutoArea);
 
-let enableAllBtn = document.createElement('button');
+var enableAllBtn = document.createElement('button');
 enableAllBtn.id = "enableAll";
 enableAllBtn.style.cssText = auto_btn_style;
 enableAllBtn.type = 'button';
@@ -31,7 +31,7 @@ enableAllBtn.onclick = () => {
         enableAllBtn.style.background = "#550000";
     }};
 
-let enableBuildingsBuyBtn = document.createElement('button');
+var enableBuildingsBuyBtn = document.createElement('button');
 enableBuildingsBuyBtn.id = "enableBuildingsBuy";
 enableBuildingsBuyBtn.style.cssText = auto_btn_style;
 enableBuildingsBuyBtn.type = 'button';
@@ -46,7 +46,7 @@ enableBuildingsBuyBtn.onclick = () => {
         enableBuildingsBuyBtn.style.background = "#550000";
     }};
 
-let enableUpgradesBtn = document.createElement('button');
+var enableUpgradesBtn = document.createElement('button');
 enableUpgradesBtn.id = "enableUpgrades";
 enableUpgradesBtn.style.cssText = auto_btn_style;
 enableUpgradesBtn.type = 'button';
@@ -61,7 +61,7 @@ enableUpgradesBtn.onclick = () => {
         enableUpgradesBtn.style.background = "#550000";
     }};
 
-let doVacuumCycleBtn = document.createElement('button');
+var doVacuumCycleBtn = document.createElement('button');
 doVacuumCycleBtn.id = "doVacuumCycle";
 doVacuumCycleBtn.style.cssText = auto_btn_style;
 doVacuumCycleBtn.type = 'button';
@@ -76,14 +76,14 @@ doVacuumCycleBtn.onclick = () => {
         doVacuumCycleBtn.style.background = "#550000";
     }};
 
-let cycleStepInput = document.createElement('input');
+var cycleStepInput = document.createElement('input');
 cycleStepInput.id = "cycleStep";
 cycleStepInput.style.cssText = auto_btn_style;
 cycleStepInput.type = 'number';
 cycleStepInput.title = 'Cycle step duration per discovered stage';
 cycleStepInput.value = 5000;
 
-let saveMassBtn = document.createElement('button');
+var saveMassBtn = document.createElement('button');
 saveMassBtn.id = "saveMass";
 saveMassBtn.style.cssText = auto_btn_style;
 saveMassBtn.type = 'button';
@@ -98,28 +98,28 @@ saveMassBtn.onclick = () => {
         saveMassBtn.style.background = "#550000";
     }};
 
-let cloudGoalInput = document.createElement('input');
+var cloudGoalInput = document.createElement('input');
 cloudGoalInput.id = "cloudGoal";
 cloudGoalInput.style.cssText = auto_btn_style;
 cloudGoalInput.type = 'number';
 cloudGoalInput.title = 'Set it at 0 before reaching Vacuum. Cloud goal before starting Collapses, also goal for Stage resets';
-cloudGoalInput.value = 10000;
+cloudGoalInput.value = 0;
 
-let cloudMultiplierInput = document.createElement('input');
+var cloudMultiplierInput = document.createElement('input');
 cloudMultiplierInput.id = "cloudMultiplierInput";
 cloudMultiplierInput.style.cssText = auto_btn_style;
 cloudMultiplierInput.type = 'number';
 cloudMultiplierInput.title = 'Cloud goal multiplier for Vaporization';
-cloudMultiplierInput.value = 9;
+cloudMultiplierInput.value = 2;
 
-let startCloudSaveupDividerInput = document.createElement('input');
+var startCloudSaveupDividerInput = document.createElement('input');
 startCloudSaveupDividerInput.id = "cloudSaveupDividerInput";
 startCloudSaveupDividerInput.style.cssText = auto_btn_style;
 startCloudSaveupDividerInput.type = 'number';
 startCloudSaveupDividerInput.title = 'A divider based on current Clouds on when to start Saving Drops for Vaporization. "1.5" means that Submerged buying will be turned off at 2/3 of current Clouds';
 startCloudSaveupDividerInput.value = 1.5;
 
-let stageResetBtn = document.createElement('button');
+var stageResetBtn = document.createElement('button');
 stageResetBtn.id = "stageReset";
 stageResetBtn.style.cssText = auto_btn_style;
 stageResetBtn.type = 'button';
@@ -194,6 +194,8 @@ let vacuumCycleInterval = 20000 // do not change, needed for first cycle after a
 
 //--- end of variables
 
+hideShowBtnsInputs()
+
 //As you might guess it is for cycling through stages in Vacuum to get data and do some job while you are away
 var vacuumCycle = setInterval(function() {
     if (doVacuumCycle && enableAll) {
@@ -203,7 +205,7 @@ var vacuumCycle = setInterval(function() {
 
 var buyAll = setInterval(function(){
     toggleCheck = [enableAll, enableBuildingsBuy, enableUpgrades, doVacuumCycle];
-
+    hideShowBtnsInputs();
     if (enableAll) {
 //Only used for microworld reset checks if auto is not bought yet, also there's another check inside the microworld function.
         try {
@@ -667,4 +669,24 @@ function restoreToggles() {
     if (!enableBuildingsBuy) {enableBuildingsBuyBtn.click()};
     if (!enableUpgrades) {enableUpgradesBtn.click()};
     return
+};
+
+function hideShowBtnsInputs() {
+    if ((!document.getElementById('challengeMultiline').innerText.includes('Vacuum state: true') ||
+        !document.getElementById('challengeMultiline').innerText.includes('Void, active'))) {
+        if (saveMassBtn.style.display == '') {saveMassBtn.style.display = 'none'};
+        if (startCloudSaveupDividerInput.style.display == '') {startCloudSaveupDividerInput.style.display = 'none'};
+        if (cloudGoalInput.style.display == '') {
+            cloudGoalInput.style.display = 'none';
+            cloudGoalInput.value = 0;
+        };
+        if(doVacuumCycleBtn.style.display == '') {doVacuumCycleBtn.style.display = 'none'};
+        if(cycleStepInput.style.display == '') {cycleStepInput.style.display = 'none'};
+    } else {
+        if (saveMassBtn.style.display == 'none') {saveMassBtn.style.display = ''};
+        if (startCloudSaveupDividerInput.style.display == 'none') {startCloudSaveupDividerInput.style.display = ''};
+        if (cloudGoalInput.style.display == 'none') {cloudGoalInput.style.display = ''};
+        if(doVacuumCycleBtn.style.display == 'none') {doVacuumCycleBtn.style.display = ''};
+        if(cycleStepInput.style.display == 'none') {cycleStepInput.style.display = ''};
+    };
 };
