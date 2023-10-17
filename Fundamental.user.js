@@ -672,8 +672,14 @@ function restoreToggles() {
 };
 
 function hideShowBtnsInputs() {
-    if ((!document.getElementById('challengeMultiline').innerText.includes('Vacuum state: true') ||
-        !document.getElementById('challengeMultiline').innerText.includes('Void, active'))) {
+    if (document.getElementById('challengeMultiline').innerText.includes('Vacuum state: true') ||
+        document.getElementById('challengeMultiline').innerText.includes('Void, active')) {
+        if (saveMassBtn.style.display == 'none') {saveMassBtn.style.display = ''};
+        if (startCloudSaveupDividerInput.style.display == 'none') {startCloudSaveupDividerInput.style.display = ''};
+        if (cloudGoalInput.style.display == 'none') {cloudGoalInput.style.display = ''};
+        if(doVacuumCycleBtn.style.display == 'none') {doVacuumCycleBtn.style.display = ''};
+        if(cycleStepInput.style.display == 'none') {cycleStepInput.style.display = ''};
+    } else {
         if (saveMassBtn.style.display == '') {saveMassBtn.style.display = 'none'};
         if (startCloudSaveupDividerInput.style.display == '') {startCloudSaveupDividerInput.style.display = 'none'};
         if (cloudGoalInput.style.display == '') {
@@ -682,11 +688,5 @@ function hideShowBtnsInputs() {
         };
         if(doVacuumCycleBtn.style.display == '') {doVacuumCycleBtn.style.display = 'none'};
         if(cycleStepInput.style.display == '') {cycleStepInput.style.display = 'none'};
-    } else {
-        if (saveMassBtn.style.display == 'none') {saveMassBtn.style.display = ''};
-        if (startCloudSaveupDividerInput.style.display == 'none') {startCloudSaveupDividerInput.style.display = ''};
-        if (cloudGoalInput.style.display == 'none') {cloudGoalInput.style.display = ''};
-        if(doVacuumCycleBtn.style.display == 'none') {doVacuumCycleBtn.style.display = ''};
-        if(cycleStepInput.style.display == 'none') {cycleStepInput.style.display = ''};
     };
 };
