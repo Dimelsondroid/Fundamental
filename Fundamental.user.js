@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Fundamental v.0.1.7
-// @version      1.2.1
+// @version      1.2.2
 // @description  Automation for most parts of the game before you get in-game automations, tested up to and including Void.
 // @downloadURL  https://github.com/Dimelsondroid/Fundamental/raw/main/Fundamental.user.js
 // @updateURL    https://github.com/Dimelsondroid/Fundamental/raw/main/Fundamental.user.js
@@ -279,7 +279,7 @@ function vacuumCycleFunc () {
             cycleStepInput.value = 5000;
             if (doVacuumCycle) {doVacuumCycleBtn.click()};
         };
-
+        if(!document.getElementById('stageSelect').classList.contains('active')) {document.querySelector('#currentSwitch').click()}
         cycleStep = cycleStepInput.value;
         var cycle = 0;
         unlockedStageButtons = document.querySelectorAll('[id*="Switch"]:not(.stageText):not([style="display: none;"])')
@@ -484,7 +484,7 @@ function submergedBuyReset() {
         };
         if (document.getElementById('challengeMultiline').innerText.includes('Vacuum state: true') ||
             document.getElementById('challengeMultiline').innerText.includes('Void, active')) {
-            if (cloudResetFor >= currentCloud*cloudMultiplierInput.value) {
+            if (cloudResetFor >= currentCloud*cloudMultiplierInput.value || cloudResetFor > cloudGoalInput.value) {
                 document.getElementById('reset1Button').click();
                 if (document.getElementById('toggleBuilding0').innerText.includes('All OFF')) {
                     document.getElementById('toggleBuilding0').click();
@@ -577,7 +577,7 @@ function accretionBuyReset() {
         document.getElementById('currentSwitch').innerText.includes('Accretion')) {
         massToReset = parseFloat(document.getElementById('reset1Button').innerText.split(' ')[3]);
         currentMass = parseFloat(document.getElementById('footerStat1Span').innerText);
-        if (massToReset < currentMass*1.5) {
+        if (massToReset*1.1 < currentMass) {
             document.getElementById('reset1Button').click();
             restoreToggles();
         };
@@ -677,8 +677,8 @@ function hideShowBtnsInputs() {
         if (saveMassBtn.style.display == 'none') {saveMassBtn.style.display = ''};
         if (startCloudSaveupDividerInput.style.display == 'none') {startCloudSaveupDividerInput.style.display = ''};
         if (cloudGoalInput.style.display == 'none') {cloudGoalInput.style.display = ''};
-        if(doVacuumCycleBtn.style.display == 'none') {doVacuumCycleBtn.style.display = ''};
-        if(cycleStepInput.style.display == 'none') {cycleStepInput.style.display = ''};
+        if (doVacuumCycleBtn.style.display == 'none') {doVacuumCycleBtn.style.display = ''};
+        if (cycleStepInput.style.display == 'none') {cycleStepInput.style.display = ''};
     } else {
         if (saveMassBtn.style.display == '') {saveMassBtn.style.display = 'none'};
         if (startCloudSaveupDividerInput.style.display == '') {startCloudSaveupDividerInput.style.display = 'none'};
@@ -686,7 +686,7 @@ function hideShowBtnsInputs() {
             cloudGoalInput.style.display = 'none';
             cloudGoalInput.value = 0;
         };
-        if(doVacuumCycleBtn.style.display == '') {doVacuumCycleBtn.style.display = 'none'};
-        if(cycleStepInput.style.display == '') {cycleStepInput.style.display = 'none'};
+        if (doVacuumCycleBtn.style.display == '') {doVacuumCycleBtn.style.display = 'none'};
+        if (cycleStepInput.style.display == '') {cycleStepInput.style.display = 'none'};
     };
 };
