@@ -4,7 +4,7 @@ Automation script for Fundamental 0.1.7
 Installation in Tampermonkey:
 https://github.com/Dimelsondroid/Fundamental/raw/main/Fundamental.user.js
 
-Current script version - 1.2.4\
+Current script version - 1.2.5\
 Will be updated upon reaching new parts of the game or if I feel something should be changed.
 
 Credits go to awWhy for making this wonderful game and Tobes for helping with code parts :)
@@ -32,4 +32,4 @@ There's 'Stage reset' toggle as well.\
 All script auto-resets are turned on, be aware before committing script to console, look for 'do...Reset' variables to change initial state - true\false.\
 Save mass should not be needed pre-Vacuum.
 
-Any ideas on how to improve it are warmly welcomed.
+Any ideas on how to improve it are warmly welcomed. Feel free to use my code for your own needs.

@@ -1,8 +1,11 @@
 
 18/10/23
+v.1.2.5
+- added another section for buttons\inputs as it's too many of them in one line...
+- some visual refactoring of script content
+- added strangeness researches auto-buy button (first affordable) with a prompt for safe reasons... not sure if it is needed, but I can't stop adding automations...
 v.1.2.4
 - hotfix for "inner" confirmations button
-
 v.1.2.3
 - added input field for pre-Vacuum Collapse threshold, in Vacuum it is used as a safe option, can be kept at it's set value
 - added auto-toggle Stage reset confirmation depending on 'Stage reset' button state

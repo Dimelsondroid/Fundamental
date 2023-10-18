@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Fundamental v.0.1.7
-// @version      1.2.4
+// @version      1.2.5
 // @description  Automation for most parts of the game before you get in-game automations, tested up to and including Void.
 // @downloadURL  https://github.com/Dimelsondroid/Fundamental/raw/main/Fundamental.user.js
 // @updateURL    https://github.com/Dimelsondroid/Fundamental/raw/main/Fundamental.user.js
@@ -11,10 +11,15 @@
 //Setting up Buttons\Inputs
 var auto_btn_style = 'color: white; font-size: 16px;';
 
-let myAutoArea = document.createElement('section');
-myAutoArea.id = "automationArea";
-myAutoArea.setAttribute("aria-label", "Automation");
-document.querySelector("#footerMain").appendChild(myAutoArea);
+let myAutoArea1 = document.createElement('section');
+myAutoArea1.id = "automationArea1";
+myAutoArea1.setAttribute("aria-label", "Automation1");
+document.querySelector("#footerMain").appendChild(myAutoArea1);
+
+let myAutoArea2 = document.createElement('section');
+myAutoArea2.id = "automationArea2";
+myAutoArea2.setAttribute("aria-label", "Automation2");
+document.querySelector("#footerMain").appendChild(myAutoArea2);
 
 var enableAllBtn = document.createElement('button');
 enableAllBtn.id = "enableAll";
@@ -181,18 +186,63 @@ togglesSwitchBtn.onclick = () => {
         togglesSwitchBtn.innerText = 'Inner confirmations disabled';
     }};
 
-myAutoArea.appendChild(enableAllBtn);
-myAutoArea.appendChild(enableBuildingsBuyBtn);
-myAutoArea.appendChild(enableUpgradesBtn);
-myAutoArea.appendChild(doVacuumCycleBtn);
-myAutoArea.appendChild(cycleStepInput);
-myAutoArea.appendChild(saveMassBtn);
-myAutoArea.appendChild(cloudGoalInput);
-myAutoArea.appendChild(cloudMultiplierInput);
-myAutoArea.appendChild(startCloudSaveupDividerInput);
-myAutoArea.appendChild(stageResetBtn);
-myAutoArea.appendChild(interstellarMassResetInput);
-myAutoArea.appendChild(togglesSwitchBtn);
+var buyStrangeResearchBtn = document.createElement('button');
+buyStrangeResearchBtn.id = "autoStrangeResearch";
+buyStrangeResearchBtn.style.cssText = auto_btn_style;
+buyStrangeResearchBtn.type = 'button';
+buyStrangeResearchBtn.innerText = 'Auto Strange Research';
+buyStrangeResearchBtn.title = 'Buys first available/cheapest strangeness research';
+buyStrangeResearchBtn.style.background = "#550000";
+buyStrangeResearchBtn.style.display = 'none';
+buyStrangeResearchBtn.onclick = () => {
+    if (strangeQuestion == 'no') {
+        strangeQuestion = window.prompt("Are you sure you want to enable auto-buy for Strangeness researches? yes/no", "no");
+        };
+    if (strangeQuestion == 'yes') {autoStrangeResearch = !autoStrangeResearch};
+    if (autoStrangeResearch) {
+        buyStrangeResearchBtn.style.background = "#005500";
+        buyStrangeResearchBtn.innerText = 'Auto strange enabled';
+    } else {
+        buyStrangeResearchBtn.style.background = "#550000";
+        buyStrangeResearchBtn.innerText = 'Auto strange disabled';
+        strangeQuestion = 'no'
+    }};
+
+var mainText = document.createElement('text');
+mainText.id = "mainText";
+mainText.className = 'bigWord center';
+mainText.type = 'text';
+mainText.innerText = 'Main:';
+
+var cloudsText = document.createElement('text');
+cloudsText.id = "cloudsText";
+cloudsText.className = 'bigWord center';
+cloudsText.type = 'text';
+cloudsText.innerText = 'Clouds:';
+
+var interstellarText = document.createElement('text');
+interstellarText.id = "interstellarText";
+interstellarText.className = 'bigWord center';
+interstellarText.type = 'text';
+interstellarText.innerText = 'Interstellar:';
+
+myAutoArea1.appendChild(mainText);
+myAutoArea1.appendChild(enableAllBtn);
+myAutoArea1.appendChild(enableBuildingsBuyBtn);
+myAutoArea1.appendChild(enableUpgradesBtn);
+myAutoArea1.appendChild(saveMassBtn);
+myAutoArea1.appendChild(stageResetBtn);
+myAutoArea1.appendChild(togglesSwitchBtn);
+myAutoArea1.appendChild(buyStrangeResearchBtn);
+
+myAutoArea2.appendChild(doVacuumCycleBtn);
+myAutoArea2.appendChild(cycleStepInput);
+myAutoArea2.appendChild(cloudsText);
+myAutoArea2.appendChild(cloudGoalInput);
+myAutoArea2.appendChild(cloudMultiplierInput);
+myAutoArea2.appendChild(startCloudSaveupDividerInput);
+myAutoArea2.appendChild(interstellarText);
+myAutoArea2.appendChild(interstellarMassResetInput);
 
 //Automation variables
 var toggleCheck = [];
@@ -205,6 +255,7 @@ var saveMass = false // Turn off Mass-consuming building to reach Collapse faste
 var stageResetEnable = false // Additional condition for auto-stage resets, in case you want it longer, button manageable.
 var innerResetsEnabled = false
 var gameStage = 0
+var strangeQuestion = 'no'
 
 //Micro
 var maxEnergy = 0 // do not change
@@ -242,6 +293,9 @@ var vacuumCycleReset = 0 // additional option to turn off cycling in case you du
 // Type 'cycleReset = 1' in console, it's value will automatically return to 0 after stopping cycle.
 // Should be easier to manage with buttons\inputs now.
 let vacuumCycleInterval = 20000 // do not change, needed for first cycle after applying script
+
+//Strangeness
+var autoStrangeResearch = false
 
 //--- end of variables
 
@@ -303,6 +357,9 @@ var buyAll = setInterval(function(){
             document.getElementById('stageReset').click();
             restoreToggles();
             maxClouds = 1;
+            if (document.querySelector('#strangenessTabBtn:not([style="display: none;"])') != null) {
+                buyStrangeResearchBtn.style.display = '';
+            };
         };
 //Auto-Stage reset, pre-Vacuum
         if ((!document.getElementById('challengeMultiline').innerText.includes('Vacuum state: true') ||
@@ -312,10 +369,13 @@ var buyAll = setInterval(function(){
             document.getElementById('stageReset').click();
             restoreToggles();
             maxClouds = 1;
+            if (document.querySelector('#strangenessTabBtn:not([style="display: none;"])') != null) {
+                buyStrangeResearchBtn.style.display = '';
             };
+        };
 
 //Check if Buy 1 is active and switch to it if necessary, looks convenient to me and helps buy buildings
-//Comment this "if" if not needed. Currently input field used to manupulate script toggle statuses (description is in the beginning)
+//Comment this "if" if not needed. Choosing Any\Max may disrupt buying buildings without auto
         if (document.querySelectorAll('[id$="buy1x"]:not([style*="green"])').length == 1) {
             document.getElementById('buy1x').click();
         };
@@ -384,6 +444,13 @@ function buyableEnchancements() {
                 element.click();
             });
         };
+    };
+
+    if (autoStrangeResearch && enableAll) {
+        var allStrangeResearches = document.getElementById('strangenessResearch').querySelectorAll('.interactiveImage:not([tabindex="-1"])');
+        allStrangeResearches.forEach(strangeResearch => {
+            strangeResearch.click();
+        });
     };
 };
 
@@ -734,6 +801,7 @@ function hideShowBtnsInputs() {
         if (cycleStepInput.style.display == 'none') {cycleStepInput.style.display = ''};
         interstellarMassResetInput.title = 'One of safe options for Collapse, should be safe to use 1, might delay Collapses if over 1';
         interstellarMassResetInput.value = 1.05;
+        if (buyStrangeResearchBtn.style.display = 'none') {buyStrangeResearchBtn.style.display = ''}
         gameStage = 2
     } else if (gameStage < 1) {
         if (saveMassBtn.style.display == '') {saveMassBtn.style.display = 'none'};
