@@ -210,18 +210,21 @@ buyStrangeResearchBtn.onclick = () => {
 
 var mainText = document.createElement('text');
 mainText.id = "mainText";
+mainText.style.cssText = 'font-size: 20px;'
 mainText.className = 'bigWord center';
 mainText.type = 'text';
 mainText.innerText = 'Main:';
 
 var cloudsText = document.createElement('text');
 cloudsText.id = "cloudsText";
+cloudsText.style.cssText = 'font-size: 20px;'
 cloudsText.className = 'bigWord center';
 cloudsText.type = 'text';
 cloudsText.innerText = 'Clouds:';
 
 var interstellarText = document.createElement('text');
 interstellarText.id = "interstellarText";
+interstellarText.style.cssText = 'font-size: 20px;'
 interstellarText.className = 'bigWord center';
 interstellarText.type = 'text';
 interstellarText.innerText = 'Interstellar:';
@@ -574,7 +577,7 @@ function submergedBuyReset() {
         maxClouds = parseFloat(document.getElementById('footerStat1Span').innerText);
     };
 
-    if (maxClouds < cloudGoalInput.value &&
+    if (maxClouds < cloudGoalInput.value && !document.querySelector('#researchExtra1Level').innerText.includes('1') &&
         (document.getElementById('stageWord').innerText.includes('Interstellar') || document.getElementById('stageWord').innerText.includes('Intergalactic')) &&
         document.getElementById('reset1Button').innerText.includes('Clouds') &&
         parseFloat(document.getElementById('reset1Button').innerText.split(' ')[2]) >= maxClouds/startCloudSaveupDividerInput.value &&

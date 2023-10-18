@@ -4,6 +4,7 @@ v.1.2.5
 - added another section for buttons\inputs as it's too many of them in one line...
 - some visual refactoring of script content
 - added strangeness researches auto-buy button (first affordable) with a prompt for safe reasons... not sure if it is needed, but I can't stop adding automations...
+- added a check to bypass Submerged save-mode for Vaporization
 v.1.2.4
 - hotfix for "inner" confirmations button
 v.1.2.3
