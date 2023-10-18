@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Fundamental v.0.1.7
-// @version      1.2.3
+// @version      1.2.4
 // @description  Automation for most parts of the game before you get in-game automations, tested up to and including Void.
 // @downloadURL  https://github.com/Dimelsondroid/Fundamental/raw/main/Fundamental.user.js
 // @updateURL    https://github.com/Dimelsondroid/Fundamental/raw/main/Fundamental.user.js
@@ -163,6 +163,7 @@ interstellarMassResetInput.value = 1.5;
 
 var togglesSwitchBtn = document.createElement('button');
 togglesSwitchBtn.id = "togglesSwitch";
+togglesSwitchBtn.className = "user";
 togglesSwitchBtn.style.cssText = auto_btn_style;
 togglesSwitchBtn.type = 'button';
 togglesSwitchBtn.innerText = 'Inner resets confirmations';
@@ -203,6 +204,7 @@ var enableUpgrades = false // turn auto for upgrades\researches\elements, button
 var saveMass = false // Turn off Mass-consuming building to reach Collapse faster
 var stageResetEnable = false // Additional condition for auto-stage resets, in case you want it longer, button manageable.
 var innerResetsEnabled = false
+var gameStage = 0
 
 //Micro
 var maxEnergy = 0 // do not change
@@ -331,7 +333,7 @@ function vacuumCycleFunc () {
         if(!document.getElementById('stageSelect').classList.contains('active')) {document.querySelector('#currentSwitch').click()}
         cycleStep = cycleStepInput.value;
         var cycle = 0;
-        unlockedStageButtons = document.querySelectorAll('[id*="Switch"]:not(.stageText):not([style="display: none;"])')
+        unlockedStageButtons = document.querySelectorAll('[id*="Switch"]:not(.stageText):not(.user):not([style="display: none;"])')
         unlockedStageButtons.forEach(stage => {
             setTimeout (function() {
                 if (doVacuumCycle && enableAll) {stage.click()};
@@ -723,8 +725,8 @@ function restoreToggles() {
 };
 
 function hideShowBtnsInputs() {
-    if (document.getElementById('challengeMultiline').innerText.includes('Vacuum state: true') ||
-        document.getElementById('challengeMultiline').innerText.includes('Void, active')) {
+    if ((document.getElementById('challengeMultiline').innerText.includes('Vacuum state: true') ||
+        document.getElementById('challengeMultiline').innerText.includes('Void, active')) && gameStage < 2) {
         if (saveMassBtn.style.display == 'none') {saveMassBtn.style.display = ''};
         if (startCloudSaveupDividerInput.style.display == 'none') {startCloudSaveupDividerInput.style.display = ''};
         if (cloudGoalInput.style.display == 'none') {cloudGoalInput.style.display = ''};
@@ -732,7 +734,8 @@ function hideShowBtnsInputs() {
         if (cycleStepInput.style.display == 'none') {cycleStepInput.style.display = ''};
         interstellarMassResetInput.title = 'One of safe options for Collapse, should be safe to use 1, might delay Collapses if over 1';
         interstellarMassResetInput.value = 1.05;
-    } else {
+        gameStage = 2
+    } else if (gameStage < 1) {
         if (saveMassBtn.style.display == '') {saveMassBtn.style.display = 'none'};
         if (startCloudSaveupDividerInput.style.display == '') {startCloudSaveupDividerInput.style.display = 'none'};
         if (cloudGoalInput.style.display == '') {
@@ -741,6 +744,7 @@ function hideShowBtnsInputs() {
         };
         if (doVacuumCycleBtn.style.display == '') {doVacuumCycleBtn.style.display = 'none'};
         if (cycleStepInput.style.display == '') {cycleStepInput.style.display = 'none'};
+        gameStage = 1
     };
 };
 
