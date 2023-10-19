@@ -1,5 +1,10 @@
 
 19/10/23
+v.1.2.8
+- removed Discharge logic and now just clicking it when in Microworld Stage tab, thanks to new awWhy's safe-logic in 0.1.7 Discharge is much more reliable now
+- some UI tuning
+- Strangeness auto-research only looks through opened stages now
+- another saving-bit-of-time tune for Vaporization
 v.1.2.7
 - some code cosmetics
 - updated README a bit

@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Fundamental v.0.1.7
-// @version      1.2.7
+// @version      1.2.8
 // @description  Automation for most parts of the game before you get in-game automations, tested up to and including Void.
 // @downloadURL  https://github.com/Dimelsondroid/Fundamental/raw/main/Fundamental.user.js
 // @updateURL    https://github.com/Dimelsondroid/Fundamental/raw/main/Fundamental.user.js
@@ -27,6 +27,7 @@ enableAllBtn.style.cssText = auto_btn_style;
 enableAllBtn.type = 'button';
 enableAllBtn.innerText = 'Enable script';
 enableAllBtn.title = 'Enable/Disable whole script';
+enableAllBtn.style.height = 'auto';
 enableAllBtn.style.background = "#550000";
 enableAllBtn.onclick = () => {
     enableAll = !enableAll
@@ -44,6 +45,7 @@ enableBuildingsBuyBtn.style.cssText = auto_btn_style;
 enableBuildingsBuyBtn.type = 'button';
 enableBuildingsBuyBtn.innerText = 'Buy buildings';
 enableBuildingsBuyBtn.title = 'Buy unautomated buildings';
+enableBuildingsBuyBtn.style.height = 'auto';
 enableBuildingsBuyBtn.style.background = "#550000";
 enableBuildingsBuyBtn.onclick = () => {
     enableBuildingsBuy = !enableBuildingsBuy
@@ -61,6 +63,7 @@ enableUpgradesBtn.style.cssText = auto_btn_style;
 enableUpgradesBtn.type = 'button';
 enableUpgradesBtn.innerText = 'Buy enchancements';
 enableUpgradesBtn.title = 'Autobuy unautomated upgrades/researches/elements on currently active stage';
+enableUpgradesBtn.style.height = 'auto';
 enableUpgradesBtn.style.background = "#550000";
 enableUpgradesBtn.onclick = () => {
     enableUpgrades = !enableUpgrades
@@ -78,6 +81,7 @@ doVacuumCycleBtn.style.cssText = auto_btn_style;
 doVacuumCycleBtn.type = 'button';
 doVacuumCycleBtn.innerText = 'Cycle';
 doVacuumCycleBtn.title = 'For cycling through stages in Vacuum';
+doVacuumCycleBtn.style.height = 'auto';
 doVacuumCycleBtn.style.background = "#550000";
 doVacuumCycleBtn.onclick = () => {
     doVacuumCycle = !doVacuumCycle
@@ -102,6 +106,7 @@ saveMassBtn.style.cssText = auto_btn_style;
 saveMassBtn.type = 'button';
 saveMassBtn.innerText = 'Save mass';
 saveMassBtn.title = 'Disable mass consuming buildings on some conditions';
+saveMassBtn.style.height = 'auto';
 saveMassBtn.style.background = "#550000";
 saveMassBtn.onclick = () => {
     saveMass = !saveMass
@@ -139,7 +144,8 @@ stageResetBtn.id = "stageResetBtn";
 stageResetBtn.style.cssText = auto_btn_style;
 stageResetBtn.type = 'button';
 stageResetBtn.innerText = 'Auto stage reset';
-stageResetBtn.title = 'Enable/disable automatic stage resets'
+stageResetBtn.title = 'Enable/disable automatic stage resets';
+stageResetBtn.style.height = 'auto';
 stageResetBtn.style.background = "#550000";
 stageResetBtn.onclick = () => {
     stageResetEnable = !stageResetEnable
@@ -149,14 +155,12 @@ stageResetBtn.onclick = () => {
                 document.querySelector('#toggleConfirm0').click();
         };
         stageResetBtn.innerText = 'Stage reset enabled, confirm disabled';
-        stageResetBtn.style.height = '40px'
     } else {
         stageResetBtn.style.background = "#550000";
         while (!document.querySelector('#toggleConfirm0').innerText.includes('All')) {
                 document.querySelector('#toggleConfirm0').click();
         };
         stageResetBtn.innerText = 'Stage reset disabled, confirm enabled';
-        stageResetBtn.style.height = '40px'
     }};
 
 var interstellarMassResetInput = document.createElement('input');
@@ -172,7 +176,8 @@ togglesSwitchBtn.className = "user";
 togglesSwitchBtn.style.cssText = auto_btn_style;
 togglesSwitchBtn.type = 'button';
 togglesSwitchBtn.innerText = 'Inner resets confirmations';
-togglesSwitchBtn.title = 'Switch "All/None" all inner resets confirmations'
+togglesSwitchBtn.title = 'Switch "All/None" all inner resets confirmations';
+togglesSwitchBtn.style.height = 'auto';
 togglesSwitchBtn.style.background = "#550000";
 togglesSwitchBtn.onclick = () => {
     innerResetsEnabled = !innerResetsEnabled
@@ -192,6 +197,7 @@ buyStrangeResearchBtn.style.cssText = auto_btn_style;
 buyStrangeResearchBtn.type = 'button';
 buyStrangeResearchBtn.innerText = 'Auto Strange Research';
 buyStrangeResearchBtn.title = 'Buys first available/cheapest strangeness research';
+buyStrangeResearchBtn.style.height = 'auto';
 buyStrangeResearchBtn.style.background = "#550000";
 buyStrangeResearchBtn.style.display = 'none';
 buyStrangeResearchBtn.onclick = () => {
@@ -455,9 +461,12 @@ function buyableEnchancements() {
     };
 
     if (autoStrangeResearch && enableAll) {
-        var allStrangeResearches = document.getElementById('strangenessResearch').querySelectorAll('.interactiveImage:not([tabindex="-1"])');
-        allStrangeResearches.forEach(strangeResearch => {
-            if (!blacklistForStrangeness.includes(strangeResearch.id)) {strangeResearch.click();};
+        var allStrangeStages = document.getElementById('strangenessResearch').querySelectorAll('section:not([style="display: none;"])');
+        allStrangeStages.forEach(strangeStage => {
+            var allStrangeStageResearches = strangeStage.querySelectorAll('div:not([style="display: none;"]):not([tabindex="-1"])')
+            allStrangeStageResearches.forEach(strangeStageResearch => {
+                if (!blacklistForStrangeness.includes(strangeStageResearch.id)) {strangeStageResearch.querySelector('input').click();};
+            });
         });
     };
 };
@@ -517,28 +526,28 @@ function microworldBuyReset() {
         doMicroReset &&
         document.getElementById('stageTabBtn').classList.contains('tabActive') &&
         document.getElementById('currentSwitch').innerText.includes('Microworld')) {
-        if (maxEnergy < parseFloat(document.getElementById('footerStat2Span').innerText) &&
-            document.getElementById('footerStat2Name').innerText.includes('Energy')) {
-            maxEnergy = parseFloat(document.getElementById('footerStat2Span').innerText);
-        };
-        if (energyCheckLoopStart > parseFloat(document.getElementById('footerStat2Span').innerText) ||
-            parseFloat(document.getElementById('footerStat2Span').innerText) < maxEnergy) { // check if something was bought to do reset
-            document.getElementById('reset1Button').click();
-            microEnergyCount += 1;
-        };
-        dischargeGoal = parseFloat(document.getElementById('reset1Button').innerText.split(' ')[3])
-        currentEnergy = parseFloat(document.getElementById('footerStat2Span').innerText)
-        if (dischargeGoal <= currentEnergy) {
-            document.getElementById('reset1Button').click();
-            microEnergyCount = 0;
-            maxEnergy = 0;
-            restoreToggles();
-        } else if (dischargeGoal > currentEnergy && microEnergyCount >= 1) {
-            document.getElementById('reset1Button').click();
-            microEnergyCount = 0;
-            maxEnergy = 0;
-            restoreToggles();
-        };
+        document.getElementById('reset1Button').click();
+//        if (maxEnergy < parseFloat(document.getElementById('footerStat2Span').innerText) &&
+//            document.getElementById('footerStat2Name').innerText.includes('Energy')) {
+//            maxEnergy = parseFloat(document.getElementById('footerStat2Span').innerText);
+//        };
+//        if (energyCheckLoopStart > parseFloat(document.getElementById('footerStat2Span').innerText) ||
+//            parseFloat(document.getElementById('footerStat2Span').innerText) < maxEnergy) { // check if something was bought to do reset
+//            microEnergyCount += 1;
+//        };
+//        dischargeGoal = parseFloat(document.getElementById('reset1Button').innerText.split(' ')[3])
+//        currentEnergy = parseFloat(document.getElementById('footerStat2Span').innerText)
+//        if (dischargeGoal <= currentEnergy) {
+//            document.getElementById('reset1Button').click();
+//            microEnergyCount = 0;
+//            maxEnergy = 0;
+//            restoreToggles();
+//        } else if (dischargeGoal > currentEnergy && microEnergyCount >= 1) {
+//            document.getElementById('reset1Button').click();
+//            microEnergyCount = 0;
+//            maxEnergy = 0;
+//            restoreToggles();
+//        };
     };
 };
 
@@ -612,7 +621,7 @@ function submergedBuyReset() {
         };
         if (document.getElementById('challengeMultiline').innerText.includes('Vacuum state: true') ||
             document.getElementById('challengeMultiline').innerText.includes('Void, active')) {
-            if (cloudResetFor >= currentCloud*cloudMultiplierInput.value || (cloudResetFor > cloudGoalInput.value && maxClouds < cloudGoalInput.value)) {
+            if (cloudResetFor >= currentCloud*cloudMultiplierInput.value || ((cloudResetFor + currentCloud) > cloudGoalInput.value && maxClouds < cloudGoalInput.value)) {
                 document.getElementById('reset1Button').click();
                 if (document.getElementById('toggleBuilding0').innerText.includes('All OFF')) {
                     document.getElementById('toggleBuilding0').click();
@@ -812,7 +821,7 @@ function hideShowBtnsInputs() {
         if (doVacuumCycleBtn.style.display == 'none') {doVacuumCycleBtn.style.display = ''};
         if (cycleStepInput.style.display == 'none') {cycleStepInput.style.display = ''};
         interstellarMassResetInput.title = 'One of safe options for Collapse, should be safe to use 1, might delay Collapses if over 1';
-        interstellarMassResetInput.value = 1.05;
+        interstellarMassResetInput.value = 1.1;
         if (buyStrangeResearchBtn.style.display = 'none') {buyStrangeResearchBtn.style.display = ''}
         gameStage = 2
     } else if (gameStage < 1) {
@@ -824,6 +833,7 @@ function hideShowBtnsInputs() {
         };
         if (doVacuumCycleBtn.style.display == '') {doVacuumCycleBtn.style.display = 'none'};
         if (cycleStepInput.style.display == '') {cycleStepInput.style.display = 'none'};
+        if (buyStrangeResearchBtn.style.display = 'none' && document.querySelectorAll('#strangenessTabBtn:not([style="display: none;"])').length != 0) {buyStrangeResearchBtn.style.display = ''}
         gameStage = 1
     };
 };
