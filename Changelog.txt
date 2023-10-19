@@ -1,5 +1,8 @@
 
 19/10/23
+v.1.2.7
+- some code cosmetics
+- updated README a bit
 v.1.2.6
 - added blacklist of Strangness researches (automations and ones not influencing production) if you really decided to turn it on
 - fix for Vaporization

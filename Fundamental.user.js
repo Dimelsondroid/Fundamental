@@ -22,7 +22,7 @@ myAutoArea2.setAttribute("aria-label", "Automation2");
 document.querySelector("#footerMain").appendChild(myAutoArea2);
 
 var enableAllBtn = document.createElement('button');
-enableAllBtn.id = "enableAll";
+enableAllBtn.id = "enableAllBtn";
 enableAllBtn.style.cssText = auto_btn_style;
 enableAllBtn.type = 'button';
 enableAllBtn.innerText = 'Enable script';
@@ -39,7 +39,7 @@ enableAllBtn.onclick = () => {
     }};
 
 var enableBuildingsBuyBtn = document.createElement('button');
-enableBuildingsBuyBtn.id = "enableBuildingsBuy";
+enableBuildingsBuyBtn.id = "enableBuildingsBuyBtn";
 enableBuildingsBuyBtn.style.cssText = auto_btn_style;
 enableBuildingsBuyBtn.type = 'button';
 enableBuildingsBuyBtn.innerText = 'Buy buildings';
@@ -56,7 +56,7 @@ enableBuildingsBuyBtn.onclick = () => {
     }};
 
 var enableUpgradesBtn = document.createElement('button');
-enableUpgradesBtn.id = "enableUpgrades";
+enableUpgradesBtn.id = "enableUpgradesBtn";
 enableUpgradesBtn.style.cssText = auto_btn_style;
 enableUpgradesBtn.type = 'button';
 enableUpgradesBtn.innerText = 'Buy enchancements';
@@ -73,7 +73,7 @@ enableUpgradesBtn.onclick = () => {
     }};
 
 var doVacuumCycleBtn = document.createElement('button');
-doVacuumCycleBtn.id = "doVacuumCycle";
+doVacuumCycleBtn.id = "doVacuumCycleBtn";
 doVacuumCycleBtn.style.cssText = auto_btn_style;
 doVacuumCycleBtn.type = 'button';
 doVacuumCycleBtn.innerText = 'Cycle';
@@ -90,14 +90,14 @@ doVacuumCycleBtn.onclick = () => {
     }};
 
 var cycleStepInput = document.createElement('input');
-cycleStepInput.id = "cycleStep";
+cycleStepInput.id = "cycleStepInput";
 cycleStepInput.style.cssText = auto_btn_style;
 cycleStepInput.type = 'number';
 cycleStepInput.title = 'Cycle step duration per discovered stage';
 cycleStepInput.value = 5000;
 
 var saveMassBtn = document.createElement('button');
-saveMassBtn.id = "saveMass";
+saveMassBtn.id = "saveMassBtn";
 saveMassBtn.style.cssText = auto_btn_style;
 saveMassBtn.type = 'button';
 saveMassBtn.innerText = 'Save mass';
@@ -114,7 +114,7 @@ saveMassBtn.onclick = () => {
     }};
 
 var cloudGoalInput = document.createElement('input');
-cloudGoalInput.id = "cloudGoal";
+cloudGoalInput.id = "cloudGoalInput";
 cloudGoalInput.style.cssText = auto_btn_style;
 cloudGoalInput.type = 'number';
 cloudGoalInput.title = 'Set it at 0 before reaching Vacuum. Cloud goal before starting Collapses, also goal for Stage resets';
@@ -135,7 +135,7 @@ startCloudSaveupDividerInput.title = 'A divider based on current Clouds on when 
 startCloudSaveupDividerInput.value = 1.5;
 
 var stageResetBtn = document.createElement('button');
-stageResetBtn.id = "stageReset";
+stageResetBtn.id = "stageResetBtn";
 stageResetBtn.style.cssText = auto_btn_style;
 stageResetBtn.type = 'button';
 stageResetBtn.innerText = 'Auto stage reset';
@@ -167,7 +167,7 @@ interstellarMassResetInput.title = 'Multiplier to current Mass for pre-Vacuum Co
 interstellarMassResetInput.value = 1.5;
 
 var togglesSwitchBtn = document.createElement('button');
-togglesSwitchBtn.id = "togglesSwitch";
+togglesSwitchBtn.id = "togglesSwitchBtn";
 togglesSwitchBtn.className = "user";
 togglesSwitchBtn.style.cssText = auto_btn_style;
 togglesSwitchBtn.type = 'button';
@@ -187,7 +187,7 @@ togglesSwitchBtn.onclick = () => {
     }};
 
 var buyStrangeResearchBtn = document.createElement('button');
-buyStrangeResearchBtn.id = "autoStrangeResearch";
+buyStrangeResearchBtn.id = "buyStrangeResearchBtn";
 buyStrangeResearchBtn.style.cssText = auto_btn_style;
 buyStrangeResearchBtn.type = 'button';
 buyStrangeResearchBtn.innerText = 'Auto Strange Research';
@@ -775,8 +775,8 @@ function interstellarBuyReset() {
             if ((parseFloat(document.getElementById('reset1Button').innerText.split(' ')[2]) >= parseFloat(document.getElementById('mainCapStat').innerText) &&
                 parseFloat(document.getElementById('reset1Button').innerText.split(' ')[2]) > parseFloat(document.getElementById('footerStat1Span').innerText) &&
                 parseFloat(document.getElementById('reset1Button').innerText.split(' ')[2])/parseFloat(document.getElementById('footerStat1Span').innerText) > interstellarMassResetInput.value) ||
-                (parseFloat(document.getElementById('reset1Button').innerText.split(' ')[2]) >= parseFloat(document.getElementById('mainCapStat').innerText) &&
-                document.getElementById('researchSubtabElements').querySelectorAll('.interactiveImage.awaiting:not([tabindex="-1"])').length >= 1)) {
+                (document.getElementById('researchSubtabElements').querySelectorAll('.interactiveImage.awaiting:not([tabindex="-1"])').length >= 1 &&
+                parseFloat(document.getElementById('reset1Button').innerText.split(' ')[2]) >= parseFloat(document.getElementById('mainCapStat').innerText))) {
                 document.getElementById('reset1Button').click();
                 restoreToggles();
             };
