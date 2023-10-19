@@ -285,7 +285,7 @@ var maxClouds = 1 // do not change
 // these 2 are somewhat connected, the bigger 'startCloudSaveupDivider' you have the longer it might take to reach 'cloudMultiplier' to do Vaporization.
 
 //Accretion
-var accretionLimit = 100 // Vacuum part for turning off all accretion to save mass, make it more to delay turning off
+var accretionLimit = 10 // Vacuum part for turning off all accretion to save mass, make it more to delay turning off
 var doAccretionReset = true // for turning on/off auto Rankup
 
 //Interstellar
