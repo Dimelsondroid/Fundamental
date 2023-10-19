@@ -4,7 +4,7 @@ Automation script for Fundamental 0.1.7
 Installation in Tampermonkey:
 https://github.com/Dimelsondroid/Fundamental/raw/main/Fundamental.user.js
 
-Current script version - 1.2.5\
+Current script version - 1.2.6\
 Will be updated upon reaching new parts of the game or if I feel something should be changed.
 
 Credits go to awWhy for making this wonderful game and Tobes for helping with code parts :)

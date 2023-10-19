@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Fundamental v.0.1.7
-// @version      1.2.5
+// @version      1.2.6
 // @description  Automation for most parts of the game before you get in-game automations, tested up to and including Void.
 // @downloadURL  https://github.com/Dimelsondroid/Fundamental/raw/main/Fundamental.user.js
 // @updateURL    https://github.com/Dimelsondroid/Fundamental/raw/main/Fundamental.user.js
@@ -259,6 +259,11 @@ var stageResetEnable = false // Additional condition for auto-stage resets, in c
 var innerResetsEnabled = false
 var gameStage = 0
 var strangeQuestion = 'no'
+var blacklistForStrangeness = ["strange4Stage1Image", "strange7Stage1Image", "strange8Stage1Image",
+                                "strange5Stage2Image", "strange6Stage2Image", "strange7Stage2Image",
+                                "strange5Stage3Image", "strange6Stage3Image", "strange7Stage3Image",
+                                "strange5Stage4Image", "strange6Stage4Image", "strange7Stage4Image",
+                                "strange3Stage5Image", "strange4Stage5Image"] // Exclutions for auto-strangeness. Those are automations and probably lastly needed researches
 
 //Micro
 var maxEnergy = 0 // do not change
@@ -280,7 +285,7 @@ var maxClouds = 1 // do not change
 // these 2 are somewhat connected, the bigger 'startCloudSaveupDivider' you have the longer it might take to reach 'cloudMultiplier' to do Vaporization.
 
 //Accretion
-var accretionLimit = 5 // Vacuum part for turning off all accretion to save mass, make it more to delay turning off
+var accretionLimit = 100 // Vacuum part for turning off all accretion to save mass, make it more to delay turning off
 var doAccretionReset = true // for turning on/off auto Rankup
 
 //Interstellar
@@ -439,7 +444,7 @@ function buyableEnchancements() {
         });
     };
 
-    if (parseFloat(document.getElementById('strange5Stage4Level').innerText) == 0) {
+    if (parseFloat(document.getElementById('strange5Stage4Level').innerText) != 2) {
         if (document.getElementById('stageWord').innerText.includes('Interstellar') ||
             document.getElementById('stageWord').innerText.includes('Intergalactic')) {
             var allElements = document.getElementById('researchSubtabElements').querySelectorAll('.interactiveImage:not([tabindex="-1"])');
@@ -452,7 +457,7 @@ function buyableEnchancements() {
     if (autoStrangeResearch && enableAll) {
         var allStrangeResearches = document.getElementById('strangenessResearch').querySelectorAll('.interactiveImage:not([tabindex="-1"])');
         allStrangeResearches.forEach(strangeResearch => {
-            strangeResearch.click();
+            if (!blacklistForStrangeness.includes(strangeResearch.id)) {strangeResearch.click();};
         });
     };
 };
@@ -507,6 +512,7 @@ function microworldBuyReset() {
     };
 
 //Manage resets if you don't have Auto
+//With 0.1.7 it seems easier to just click Discharge without much conditions
     if (parseFloat(document.getElementById('strange4Stage1Level').innerText) == 0 &&
         doMicroReset &&
         document.getElementById('stageTabBtn').classList.contains('tabActive') &&
@@ -517,7 +523,8 @@ function microworldBuyReset() {
         };
         if (energyCheckLoopStart > parseFloat(document.getElementById('footerStat2Span').innerText) ||
             parseFloat(document.getElementById('footerStat2Span').innerText) < maxEnergy) { // check if something was bought to do reset
-                microEnergyCount += 1;
+            document.getElementById('reset1Button').click();
+            microEnergyCount += 1;
         };
         dischargeGoal = parseFloat(document.getElementById('reset1Button').innerText.split(' ')[3])
         currentEnergy = parseFloat(document.getElementById('footerStat2Span').innerText)
@@ -605,7 +612,7 @@ function submergedBuyReset() {
         };
         if (document.getElementById('challengeMultiline').innerText.includes('Vacuum state: true') ||
             document.getElementById('challengeMultiline').innerText.includes('Void, active')) {
-            if (cloudResetFor >= currentCloud*cloudMultiplierInput.value || cloudResetFor > cloudGoalInput.value) {
+            if (cloudResetFor >= currentCloud*cloudMultiplierInput.value || (cloudResetFor > cloudGoalInput.value && maxClouds < cloudGoalInput.value)) {
                 document.getElementById('reset1Button').click();
                 if (document.getElementById('toggleBuilding0').innerText.includes('All OFF')) {
                     document.getElementById('toggleBuilding0').click();
@@ -765,9 +772,11 @@ function interstellarBuyReset() {
             maxClouds >= cloudGoalInput.value &&
             (document.getElementById('currentSwitch').innerText.includes('Interstellar') ||
             document.getElementById('currentSwitch').innerText.includes('Intergalactic'))) {
-            if (parseFloat(document.getElementById('reset1Button').innerText.split(' ')[2]) >= parseFloat(document.getElementById('mainCapStat').innerText) &&
+            if ((parseFloat(document.getElementById('reset1Button').innerText.split(' ')[2]) >= parseFloat(document.getElementById('mainCapStat').innerText) &&
                 parseFloat(document.getElementById('reset1Button').innerText.split(' ')[2]) > parseFloat(document.getElementById('footerStat1Span').innerText) &&
-                parseFloat(document.getElementById('reset1Button').innerText.split(' ')[2])/parseFloat(document.getElementById('footerStat1Span').innerText) > interstellarMassResetInput.value) {
+                parseFloat(document.getElementById('reset1Button').innerText.split(' ')[2])/parseFloat(document.getElementById('footerStat1Span').innerText) > interstellarMassResetInput.value) ||
+                (parseFloat(document.getElementById('reset1Button').innerText.split(' ')[2]) >= parseFloat(document.getElementById('mainCapStat').innerText) &&
+                document.getElementById('researchSubtabElements').querySelectorAll('.interactiveImage.awaiting:not([tabindex="-1"])').length >= 1)) {
                 document.getElementById('reset1Button').click();
                 restoreToggles();
             };
@@ -779,7 +788,7 @@ function interstellarBuyReset() {
             (document.getElementById('currentSwitch').innerText.includes('Interstellar') ||
             document.getElementById('currentSwitch').innerText.includes('Intergalactic'))) {
             if (parseFloat(document.getElementById('reset1Button').innerText.split(' ')[2]) > parseFloat(document.getElementById('footerStat1Span').innerText)*interstellarMassResetInput.value ||
-                (document.getElementById('researchSubtabElements').querySelectorAll('.interactiveImage.awaiting:not([tabindex="-1"])').length >=2 &&
+                (document.getElementById('researchSubtabElements').querySelectorAll('.interactiveImage.awaiting:not([tabindex="-1"])').length >= 1 &&
                 parseFloat(document.getElementById('reset1Button').innerText.split(' ')[2]) >= parseFloat(document.getElementById('footerStat1Span').innerText))) {
                 document.getElementById('reset1Button').click();
                 restoreToggles();
