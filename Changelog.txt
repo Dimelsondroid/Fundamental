@@ -4,7 +4,7 @@ v.1.2.6
 - added blacklist of Strangness researches (automations and ones not influencing production) if you really decided to turn it on
 - fix for Vaporization
 - fix for Elements purchasing
-- lowered "awaited" Elements to 1 and added alternative check for unclaimed Elements
+- lowered "awaited" Elements to 1 and added alternative check for unclaimed Elements in Vacuum
 
 18/10/23
 v.1.2.5
