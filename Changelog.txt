@@ -1,5 +1,10 @@
 
 20/10/23
+v.1.2.10
+- unneeded UI elements hide\show depending on stage for pre-Vacuum
+- text color changed to softer looking one on all footer colors, background for buttons is a bit darker now
+- some time-saving tweaks to Save mass feature
+- fix for 'no clouds' Vacuum setup
 v.1.2.9
 - pre-Vacuum Accretion first Rank is now bought
 - corrected pre-Vacuum auto-stage condition
