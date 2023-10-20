@@ -1,4 +1,10 @@
 
+20/10/23
+v.1.2.9
+- pre-Vacuum Accretion first Rank is now bought
+- corrected pre-Vacuum auto-stage condition
+- reworked Cycling logic, now it immediately starts on toggling ON
+
 19/10/23
 v.1.2.8
 - removed Discharge logic and now just clicking it when in Microworld Stage tab, thanks to new awWhy's safe-logic in 0.1.7 Discharge is much more reliable now

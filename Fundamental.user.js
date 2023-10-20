@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Fundamental v.0.1.7
-// @version      1.2.8
+// @version      1.2.9
 // @description  Automation for most parts of the game before you get in-game automations, tested up to and including Void.
 // @downloadURL  https://github.com/Dimelsondroid/Fundamental/raw/main/Fundamental.user.js
 // @updateURL    https://github.com/Dimelsondroid/Fundamental/raw/main/Fundamental.user.js
@@ -88,9 +88,14 @@ doVacuumCycleBtn.onclick = () => {
     if (doVacuumCycle) {
         doVacuumCycleBtn.style.background = "#005500";
         doVacuumCycleBtn.innerText = 'Cycling';
+        vacuumCycleFunc();
     } else {
         doVacuumCycleBtn.style.background = "#550000";
         doVacuumCycleBtn.innerText = 'Not cycling';
+        clearInterval(vacuumCycle);
+        timeoutFuncs.forEach(func => {
+            clearTimeout(func);
+        });
     }};
 
 var cycleStepInput = document.createElement('input');
@@ -255,6 +260,7 @@ myAutoArea2.appendChild(interstellarMassResetInput);
 
 //Automation variables
 var toggleCheck = [];
+var timeoutFuncs = [];
 
 var unlockedStageButtons = document.querySelectorAll('[id*="Switch"]:not(.stageText):not([style="display: none;"])')
 var enableAll = false // enable or disable whole script, button manageable
@@ -376,8 +382,8 @@ var buyAll = setInterval(function(){
             };
         };
 //Auto-Stage reset, pre-Vacuum
-        if ((!document.getElementById('challengeMultiline').innerText.includes('Vacuum state: true') ||
-            !document.getElementById('challengeMultiline').innerText.includes('Void, active')) &&
+        if (!(document.getElementById('challengeMultiline').innerText.includes('Vacuum state: true') ||
+            document.getElementById('challengeMultiline').innerText.includes('Void, active')) &&
             document.getElementById('stageReset').innerText.includes('Enter next Stage') && stageResetEnable &&
             parseFloat(document.getElementById('strange3Stage5Level').innerText) == 0) {
             document.getElementById('stageReset').click();
@@ -406,21 +412,26 @@ function vacuumCycleFunc () {
         };
         if(!document.getElementById('stageSelect').classList.contains('active')) {document.querySelector('#currentSwitch').click()}
         cycleStep = cycleStepInput.value;
+        timeoutFuncs = []
         var cycle = 0;
         unlockedStageButtons = document.querySelectorAll('[id*="Switch"]:not(.stageText):not(.user):not([style="display: none;"])')
         unlockedStageButtons.forEach(stage => {
-            setTimeout (function() {
-                if (doVacuumCycle && enableAll) {stage.click()};
-            }, cycleStep*cycle);
-            setTimeout (function() {
-                if (doVacuumCycle && enableAll) {document.getElementById('settingsTabBtn').click()};
-            }, cycleStep*cycle+cycleStep/3);
-            setTimeout (function() {
-                if (doVacuumCycle && enableAll) {document.getElementById('settingsSubtabBtnStats').click()};
-            }, cycleStep*cycle+cycleStep/3+100);
-            setTimeout (function() {
-                if (doVacuumCycle && enableAll) {document.getElementById('stageTabBtn').click()};
-            }, cycleStep*cycle+cycleStep/3+500);
+            timeoutFuncs.push(
+                setTimeout (function() {
+                    if (doVacuumCycle && enableAll) {stage.click()};
+                }, cycleStep*cycle));
+            timeoutFuncs.push(
+                setTimeout (function() {
+                    if (doVacuumCycle && enableAll) {document.getElementById('settingsTabBtn').click()};
+                }, cycleStep*cycle+cycleStep/3));
+            timeoutFuncs.push(
+                setTimeout (function() {
+                    if (doVacuumCycle && enableAll) {document.getElementById('settingsSubtabBtnStats').click()};
+                }, cycleStep*cycle+cycleStep/3+100));
+            timeoutFuncs.push(
+                setTimeout (function() {
+                    if (doVacuumCycle && enableAll) {document.getElementById('stageTabBtn').click()};
+                }, cycleStep*cycle+cycleStep/3+500));
             cycle += 1;
         });
 
@@ -714,6 +725,7 @@ function accretionBuyReset() {
         document.getElementById('currentSwitch').innerText.includes('Accretion')) {
         massToReset = parseFloat(document.getElementById('reset1Button').innerText.split(' ')[3]);
         currentMass = parseFloat(document.getElementById('footerStat1Span').innerText);
+        if (massToReset <= 1e-10) {document.getElementById('reset1Button').click();};
         if (massToReset*1.1 < currentMass) {
             document.getElementById('reset1Button').click();
             restoreToggles();
