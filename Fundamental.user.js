@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Fundamental v.0.1.7
-// @version      1.2.10
+// @version      1.2.11
 // @description  Automation for most parts of the game before you get in-game automations, tested up to and including Void.
 // @downloadURL  https://github.com/Dimelsondroid/Fundamental/raw/main/Fundamental.user.js
 // @updateURL    https://github.com/Dimelsondroid/Fundamental/raw/main/Fundamental.user.js
@@ -273,16 +273,16 @@ var stageResetEnable = false // Additional condition for auto-stage resets, in c
 var innerResetsEnabled = false
 var gameStage = 0
 var strangeQuestion = 'no'
-var blacklistForStrangeness = ["strange4Stage1Image", "strange7Stage1Image", "strange8Stage1Image",
-                                "strange5Stage2Image", "strange6Stage2Image", "strange7Stage2Image",
-                                "strange5Stage3Image", "strange6Stage3Image", "strange7Stage3Image",
-                                "strange5Stage4Image", "strange6Stage4Image", "strange7Stage4Image",
-                                "strange3Stage5Image", "strange4Stage5Image"] // Exclutions for auto-strangeness. Those are automations and probably lastly needed researches
+var blacklistForStrangeness = ["strange4Stage1", "strange7Stage1", "strange8Stage1",
+                                "strange5Stage2", "strange6Stage2", "strange7Stage2",
+                                "strange5Stage3", "strange6Stage3", "strange7Stage3",
+                                "strange5Stage4", "strange6Stage4", "strange7Stage4",
+                                "strange3Stage5", "strange4Stage5"] // Exclutions for auto-strangeness. Those are automations and probably lastly needed researches
 
 //Micro
-var maxEnergy = 0 // do not change
-var microEnergyCount = 0 // do not change
-var energyCheckLoopStart = 0 // do not change
+//var maxEnergy = 0 // do not change
+//var microEnergyCount = 0 // do not change
+//var energyCheckLoopStart = 0 // do not change
 var preonLimit = 10000 // Vacuum part for turning off auto for preons to accumulate mass, make it more to delay turning off
 var doMicroReset = true // for turning on/off auto Discharge
 
@@ -335,11 +335,11 @@ var buyAll = setInterval(function(){
     hideShowBtnsInputs();
     if (enableAll) {
 //Only used for microworld reset checks if auto is not bought yet, also there's another check inside the microworld function.
-        try {
-            if (parseFloat(document.getElementById('strange4Stage1Level').innerText) == 0 && document.getElementById('reset1Text').innerText.includes('Discharge')) {
-                energyCheckLoopStart = parseFloat(document.getElementById('footerStat2Span').innerText);
-            }
-        } catch(err) {};
+//        try {
+//            if (parseFloat(document.getElementById('strange4Stage1Level').innerText) == 0 && document.getElementById('reset1Text').innerText.includes('Discharge')) {
+//                energyCheckLoopStart = parseFloat(document.getElementById('footerStat2Span').innerText);
+//            }
+//        } catch(err) {};
 
 //auto Upgrades, Research and Elements
         if (enableUpgrades) {

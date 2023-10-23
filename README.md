@@ -7,7 +7,7 @@ https://github.com/Dimelsondroid/Fundamental/raw/main/Fundamental.user.js
 Tampermonkey itself:\
 https://www.tampermonkey.net/
 
-Current script version - 1.2.10\
+Current script version - 1.2.11\
 Will be updated upon reaching new parts of the game or if I feel something should be changed.
 
 Credits go to awWhy for making this wonderful game and Tobes for helping with code parts :)

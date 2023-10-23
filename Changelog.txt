@@ -1,4 +1,9 @@
 
+23/10/23
+v.1.2.11
+- fix for buying strange researches according to Blacklist
+- commented out (for now) all related to Discharge logic which is not used since v.1.2.8
+
 20/10/23
 v.1.2.10
 - unneeded UI elements hide\show depending on stage for pre-Vacuum
