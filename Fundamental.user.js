@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Fundamental v.0.1.7
-// @version      1.2.12
+// @version      1.2.13
 // @description  Automation for most parts of the game before you get in-game automations, tested up to and including Void.
 // @downloadURL  https://github.com/Dimelsondroid/Fundamental/raw/main/Fundamental.user.js
 // @updateURL    https://github.com/Dimelsondroid/Fundamental/raw/main/Fundamental.user.js
@@ -729,7 +729,7 @@ function accretionBuyReset() {
         document.getElementById('currentSwitch').innerText.includes('Accretion')) {
         massToReset = parseFloat(document.getElementById('reset1Button').innerText.split(' ')[3]);
         currentMass = parseFloat(document.getElementById('footerStat1Span').innerText);
-        if (document.getElementById('upgrades').querySelectorAll('.interactiveImage:not([style="display: none;"])').length == 0) {document.getElementById('reset1Button').click()};
+        if (document.querySelector('#rankName').innerText.includes('Ocean world')) {document.getElementById('reset1Button').click()};
         if (massToReset*1.1 < currentMass) {
             document.getElementById('reset1Button').click();
             restoreToggles();
