@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Fundamental v.0.1.7
-// @version      1.2.14
+// @version      1.3.1
 // @description  Automation for most parts of the game before you get in-game automations, tested up to and including Void.
 // @downloadURL  https://github.com/Dimelsondroid/Fundamental/raw/main/Fundamental.user.js
 // @updateURL    https://github.com/Dimelsondroid/Fundamental/raw/main/Fundamental.user.js
@@ -177,6 +177,13 @@ interstellarMassResetInput.type = 'number';
 interstellarMassResetInput.title = 'Multiplier to current Mass for pre-Vacuum Collapses';
 interstellarMassResetInput.value = 1.5;
 
+var interstellarElementsToResetInput = document.createElement('input');
+interstellarElementsToResetInput.id = "interstellarElementsToResetInput";
+interstellarElementsToResetInput.style.cssText = auto_btn_style;
+interstellarElementsToResetInput.type = 'number';
+interstellarElementsToResetInput.title = 'Elements goal for Stage reset';
+interstellarElementsToResetInput.value = 1.1e55;
+
 var togglesSwitchBtn = document.createElement('button');
 togglesSwitchBtn.id = "togglesSwitchBtn";
 togglesSwitchBtn.className = "user";
@@ -259,6 +266,7 @@ myAutoArea2.appendChild(cloudMultiplierInput);
 myAutoArea2.appendChild(startCloudSaveupDividerInput);
 myAutoArea2.appendChild(interstellarText);
 myAutoArea2.appendChild(interstellarMassResetInput);
+myAutoArea2.appendChild(interstellarElementsToResetInput);
 
 //Automation variables
 var toggleCheck = [];
@@ -271,6 +279,7 @@ var enableUpgrades = false // turn auto for upgrades\researches\elements, button
 var saveMass = false // Turn off Mass-consuming building to reach Collapse faster
 var stageResetEnable = false // Additional condition for auto-stage resets, in case you want it longer, button manageable.
 var innerResetsEnabled = false
+var canDoStageReset = false
 var gameStage = 0
 var strangeQuestion = 'no'
 var blacklistForStrangeness = ["strange4Stage1", "strange7Stage1", "strange8Stage1",
@@ -375,10 +384,11 @@ var buyAll = setInterval(function(){
 //Auto-Stage reset, mostly Vacuum
         if (document.getElementById('stageWord').innerText.includes('Intergalactic') && maxClouds >= cloudGoalInput.value &&
             document.getElementById('stageReset').innerText.includes('Return back to start') && stageResetEnable &&
-            parseFloat(document.getElementById('strange3Stage5Level').innerText) == 0) {
+            parseFloat(document.getElementById('strange3Stage5Level').innerText) == 0 && canDoStageReset) {
             document.getElementById('stageReset').click();
             restoreToggles();
             maxClouds = 1;
+            canDoStageReset = !canDoStageReset;
             if (document.querySelector('#strangenessTabBtn:not([style="display: none;"])') != null) {
                 buyStrangeResearchBtn.style.display = '';
             };
@@ -788,6 +798,12 @@ function interstellarBuyReset() {
         });
     };
 
+    var totalElements = parseFloat(document.querySelector('#building0StatTrueTotal').innerText);
+
+    if (totalElements > interstellarElementsToResetInput.value && !canDoStageReset) {
+        canDoStageReset = !canDoStageReset;
+    };
+
 //Manage resets if you don't have Auto
     if (document.getElementById('challengeMultiline').innerText.includes('Vacuum state: true') ||
         document.getElementById('challengeMultiline').innerText.includes('Void, active')) {
@@ -835,6 +851,7 @@ function hideShowBtnsInputs() {
         cloudMultiplierInput.style.display = '';
         interstellarText.style.display = '';
         interstellarMassResetInput.style.display = '';
+        interstellarElementsToResetInput.style.display = '';
         if (saveMassBtn.style.display == 'none') {saveMassBtn.style.display = ''};
         if (startCloudSaveupDividerInput.style.display == 'none') {startCloudSaveupDividerInput.style.display = ''};
         if (cloudGoalInput.style.display == 'none') {cloudGoalInput.style.display = ''};
@@ -882,8 +899,12 @@ function hideShowBtnsInputs() {
             };
             if (doVacuumCycleBtn.style.display == '') {doVacuumCycleBtn.style.display = 'none'};
             if (cycleStepInput.style.display == '') {cycleStepInput.style.display = 'none'};
-            if (buyStrangeResearchBtn.style.display = 'none' && document.querySelectorAll('#strangenessTabBtn:not([style="display: none;"])').length != 0) {buyStrangeResearchBtn.style.display = ''}
-            gameStage = 1
+            if (buyStrangeResearchBtn.style.display = 'none' &&
+                document.querySelectorAll('#strangenessTabBtn:not([style="display: none;"])').length != 0) {
+                    buyStrangeResearchBtn.style.display = ''
+                };
+            interstellarElementsToResetInput.style.display = 'none';
+            gameStage = 1;
         };
     };
 };
