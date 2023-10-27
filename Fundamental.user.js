@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Fundamental v.0.1.7
-// @version      1.2.13
+// @version      1.2.14
 // @description  Automation for most parts of the game before you get in-game automations, tested up to and including Void.
 // @downloadURL  https://github.com/Dimelsondroid/Fundamental/raw/main/Fundamental.user.js
 // @updateURL    https://github.com/Dimelsondroid/Fundamental/raw/main/Fundamental.user.js
@@ -373,7 +373,7 @@ var buyAll = setInterval(function(){
         };
 
 //Auto-Stage reset, mostly Vacuum
-        if (document.getElementById('stageWord').innerText.includes('Intergalactic') && maxClouds > cloudGoalInput.value &&
+        if (document.getElementById('stageWord').innerText.includes('Intergalactic') && maxClouds >= cloudGoalInput.value &&
             document.getElementById('stageReset').innerText.includes('Return back to start') && stageResetEnable &&
             parseFloat(document.getElementById('strange3Stage5Level').innerText) == 0) {
             document.getElementById('stageReset').click();
@@ -635,7 +635,7 @@ function submergedBuyReset() {
         };
         if (document.getElementById('challengeMultiline').innerText.includes('Vacuum state: true') ||
             document.getElementById('challengeMultiline').innerText.includes('Void, active')) {
-            if ((cloudResetFor >= currentCloud*cloudMultiplierInput.value || (cloudResetFor + currentCloud) > cloudGoalInput.value) && maxClouds < cloudGoalInput.value) {
+            if ((cloudResetFor >= currentCloud*cloudMultiplierInput.value || (cloudResetFor + currentCloud) >= cloudGoalInput.value) && maxClouds < cloudGoalInput.value) {
                 document.getElementById('reset1Button').click();
                 if (document.getElementById('toggleBuilding0').innerText.includes('All OFF')) {
                     document.getElementById('toggleBuilding0').click();

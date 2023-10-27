@@ -1,4 +1,8 @@
 
+27/10/23
+v.1.2.14
+- a fix to cornerstone situation with Cloud amount and set goal I've encountered
+
 26/10/23
 v.1.2.13
 - previous fix did not work, this one works for sure...
