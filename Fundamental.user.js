@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Fundamental v.0.1.7
-// @version      1.3.1
+// @version      1.3.2
 // @description  Automation for most parts of the game before you get in-game automations, tested up to and including Void.
 // @downloadURL  https://github.com/Dimelsondroid/Fundamental/raw/main/Fundamental.user.js
 // @updateURL    https://github.com/Dimelsondroid/Fundamental/raw/main/Fundamental.user.js
@@ -32,7 +32,7 @@ enableAllBtn.title = 'Enable/Disable whole script';
 enableAllBtn.style.height = 'auto';
 enableAllBtn.style.background = auto_btn_background_off;
 enableAllBtn.onclick = () => {
-    enableAll = !enableAll
+    enableAll = !enableAll;
     if (enableAll) {
         enableAllBtn.style.background = auto_btn_background_on;
         enableAllBtn.innerText = 'Script enabled';
@@ -50,7 +50,7 @@ enableBuildingsBuyBtn.title = 'Buy unautomated buildings';
 enableBuildingsBuyBtn.style.height = 'auto';
 enableBuildingsBuyBtn.style.background = auto_btn_background_off;
 enableBuildingsBuyBtn.onclick = () => {
-    enableBuildingsBuy = !enableBuildingsBuy
+    enableBuildingsBuy = !enableBuildingsBuy;
     if (enableBuildingsBuy) {
         enableBuildingsBuyBtn.style.background = auto_btn_background_on;
         enableBuildingsBuyBtn.innerText = 'Buying buildings';
@@ -68,7 +68,7 @@ enableUpgradesBtn.title = 'Autobuy unautomated upgrades/researches/elements on c
 enableUpgradesBtn.style.height = 'auto';
 enableUpgradesBtn.style.background = auto_btn_background_off;
 enableUpgradesBtn.onclick = () => {
-    enableUpgrades = !enableUpgrades
+    enableUpgrades = !enableUpgrades;
     if (enableUpgrades) {
         enableUpgradesBtn.style.background = auto_btn_background_on;
         enableUpgradesBtn.innerText = 'Buying all enchancements';
@@ -86,7 +86,7 @@ doVacuumCycleBtn.title = 'For cycling through stages in Vacuum';
 doVacuumCycleBtn.style.height = 'auto';
 doVacuumCycleBtn.style.background = auto_btn_background_off;
 doVacuumCycleBtn.onclick = () => {
-    doVacuumCycle = !doVacuumCycle
+    doVacuumCycle = !doVacuumCycle;
     if (doVacuumCycle) {
         doVacuumCycleBtn.style.background = auto_btn_background_on;
         doVacuumCycleBtn.innerText = 'Cycling';
@@ -116,7 +116,7 @@ saveMassBtn.title = 'Disable mass consuming buildings on some conditions';
 saveMassBtn.style.height = 'auto';
 saveMassBtn.style.background = auto_btn_background_off;
 saveMassBtn.onclick = () => {
-    saveMass = !saveMass
+    saveMass = !saveMass;
     if (saveMass) {
         saveMassBtn.style.background = auto_btn_background_on;
         saveMassBtn.innerText = 'Saving mass';
@@ -155,7 +155,7 @@ stageResetBtn.title = 'Enable/disable automatic stage resets';
 stageResetBtn.style.height = 'auto';
 stageResetBtn.style.background = auto_btn_background_off;
 stageResetBtn.onclick = () => {
-    stageResetEnable = !stageResetEnable
+    stageResetEnable = !stageResetEnable;
     if (stageResetEnable) {
         stageResetBtn.style.background = auto_btn_background_on;
         while (!document.querySelector('#toggleConfirm0').innerText.includes('None')) {
@@ -182,7 +182,7 @@ interstellarElementsToResetInput.id = "interstellarElementsToResetInput";
 interstellarElementsToResetInput.style.cssText = auto_btn_style;
 interstellarElementsToResetInput.type = 'number';
 interstellarElementsToResetInput.title = 'Elements goal for Stage reset';
-interstellarElementsToResetInput.value = 1.1e55;
+interstellarElementsToResetInput.value = 1.1e70;
 
 var togglesSwitchBtn = document.createElement('button');
 togglesSwitchBtn.id = "togglesSwitchBtn";
@@ -194,7 +194,7 @@ togglesSwitchBtn.title = 'Switch "All/None" all inner resets confirmations';
 togglesSwitchBtn.style.height = 'auto';
 togglesSwitchBtn.style.background = auto_btn_background_off;
 togglesSwitchBtn.onclick = () => {
-    innerResetsEnabled = !innerResetsEnabled
+    innerResetsEnabled = !innerResetsEnabled;
     if (innerResetsEnabled) {
         togglesSwitchBtn.style.background = auto_btn_background_on;
         switchInnerResetToggles();
@@ -286,7 +286,7 @@ var blacklistForStrangeness = ["strange4Stage1", "strange7Stage1", "strange8Stag
                                 "strange5Stage2", "strange6Stage2", "strange7Stage2",
                                 "strange5Stage3", "strange6Stage3", "strange7Stage3",
                                 "strange5Stage4", "strange6Stage4", "strange7Stage4",
-                                "strange3Stage5", "strange4Stage5"] // Exclutions for auto-strangeness. Those are automations and probably lastly needed researches
+                                "strange3Stage5", "strange6Stage5"] // Exclutions for auto-strangeness. Those are automations and probably lastly needed researches
 
 //Micro
 //var maxEnergy = 0 // do not change
@@ -298,9 +298,9 @@ var doMicroReset = true // for turning on/off auto Discharge
 //Submerged
 var doSubmergedReset = true // for turning on/off auto Vaporization
     //pre-Vacuum
-var submergedCloudMultyLow = 2 // multy for Clouds under 100000
-var submergedCloudMultyMid = 2 // multy for Clouds under 1e10
-var submergedCloudMultyHigh = 2 // multy for Clouds over 1e10
+var submergedCloudMultyLow = 3 // multy for Clouds under 100000
+var submergedCloudMultyMid = 3 // multy for Clouds under 1e10
+var submergedCloudMultyHigh = 3 // multy for Clouds over 1e10
     //Vacuum
 var maxClouds = 1 // do not change
 // cloudMultiplier = 2 // '1' is doubling current Clouds (get same amount as now), probably slower than with bigger multi but gives you some auto 'Cloud progress' before Collapsing. Tune it for you own style.
@@ -315,6 +315,7 @@ var doAccretionReset = true // for turning on/off auto Rankup
 //var interstellarMassReset = 1.5 // multy for auto Mass reset, for pre-Vacuum auto-Collapse
 var vacuumInterstellarMassReset = 1.1 // minimal diff of reset to current Mass for Collapse, just a safe option, might delay Collapsing at some moments, should reset at Interstellar mass hardcap
 var doInterstellarReset = true // for turning on/off auto Collapse
+var totalElements = 1
 
 // Vacuum
 var doVacuumCycle = false //
@@ -396,11 +397,13 @@ var buyAll = setInterval(function(){
 //Auto-Stage reset, pre-Vacuum
         if (!(document.getElementById('challengeMultiline').innerText.includes('Vacuum state: true') ||
             document.getElementById('challengeMultiline').innerText.includes('Void, active')) &&
-            document.getElementById('stageReset').innerText.includes('Enter next Stage') && stageResetEnable &&
-            parseFloat(document.getElementById('strange3Stage5Level').innerText) == 0) {
+            (document.getElementById('stageReset').innerText.includes('Enter next Stage') ||
+            document.getElementById('stageReset').innerText.includes('Return back to start')) &&
+            stageResetEnable && parseFloat(document.getElementById('strange3Stage5Level').innerText) == 0) {
             document.getElementById('stageReset').click();
             restoreToggles();
             maxClouds = 1;
+            canDoStageReset = !canDoStageReset;
             if (document.querySelector('#strangenessTabBtn:not([style="display: none;"])') != null) {
                 buyStrangeResearchBtn.style.display = '';
             };
@@ -461,26 +464,22 @@ function buyableEnchancements() {
 //auto Upgrades, Research and Elements
 //works dumb, simply trying to buy anything first available
 //checks if you already have automations included
-    if (parseFloat(document.getElementById('strange7Stage3Level').innerText) < 3) {
-        var allUpgrades = document.getElementById('upgrades').querySelectorAll('.interactiveImage:not([tabindex="-1"])');
-        allUpgrades.forEach(upgrade => {
-            upgrade.click();
-        });
+    var allUpgrades = document.getElementById('upgrades').querySelectorAll('.interactiveImage:not([tabindex="-1"])');
+    allUpgrades.forEach(upgrade => {
+        upgrade.click();
+    });
 
-        var allResearch = document.getElementById('researchSubtabResearches').querySelectorAll('.interactiveImage:not([tabindex="-1"])');
-        allResearch.forEach(research => {
-            research.click();
-        });
-    };
+    var allResearch = document.getElementById('researchSubtabResearches').querySelectorAll('.interactiveImage:not([tabindex="-1"])');
+    allResearch.forEach(research => {
+        research.click();
+    });
 
-    if (parseFloat(document.getElementById('strange5Stage4Level').innerText) != 2) {
-        if (document.getElementById('stageWord').innerText.includes('Interstellar') ||
-            document.getElementById('stageWord').innerText.includes('Intergalactic')) {
-            var allElements = document.getElementById('researchSubtabElements').querySelectorAll('.interactiveImage:not([tabindex="-1"])');
-            allElements.forEach(element => {
-                element.click();
-            });
-        };
+    if (document.getElementById('stageWord').innerText.includes('Interstellar') ||
+        document.getElementById('stageWord').innerText.includes('Intergalactic')) {
+        var allElements = document.getElementById('researchSubtabElements').querySelectorAll('.interactiveImage:not([tabindex="-1"])');
+        allElements.forEach(element => {
+            element.click();
+        });
     };
 
     if (autoStrangeResearch && enableAll) {
@@ -496,7 +495,7 @@ function buyableEnchancements() {
 
 function microworldBuyReset() {
 //Manage building in microworld
-    if (enableBuildingsBuy && parseFloat(document.getElementById('strange7Stage1Level').innerText) != 3) {
+    if (enableBuildingsBuy && parseFloat(document.getElementById('strange7Stage1Level').innerText) != parseFloat(document.getElementById('strange7Stage1Max').innerText)) {
         if (parseFloat(document.getElementById('strange8Stage1Level').innerText) != 0) {
             buildingAutoWait = parseInt(document.getElementById('autoWaitInput').value);
         } else {
@@ -577,7 +576,7 @@ function microworldBuyReset() {
 
 function submergedBuyReset() {
 //Manage building in Submerged
-    if (enableBuildingsBuy && parseFloat(document.getElementById('strange6Stage2Level').innerText) != 5) {
+    if (enableBuildingsBuy && parseFloat(document.getElementById('strange6Stage2Level').innerText) != parseFloat(document.getElementById('strange6Stage2Max').innerText)) {
         if (parseFloat(document.getElementById('strange8Stage1Level').innerText) != 0) {
             buildingAutoWait = parseInt(document.getElementById('autoWaitInput').value);
         } else {
@@ -675,7 +674,7 @@ function submergedBuyReset() {
 
 function accretionBuyReset() {
 //Manage building in Accretion
-    if (enableBuildingsBuy && parseFloat(document.getElementById('strange6Stage3Level').innerText) != 4) {
+    if (enableBuildingsBuy && parseFloat(document.getElementById('strange6Stage3Level').innerText) != parseFloat(document.getElementById('strange6Stage3Max').innerText)) {
         if (parseFloat(document.getElementById('strange8Stage1Level').innerText) != 0) {
             buildingAutoWait = parseInt(document.getElementById('autoWaitInput').value);
         } else {
@@ -749,7 +748,7 @@ function accretionBuyReset() {
 
 function interstellarBuyReset() {
 //Manage building in Interstellar and Intergalactic
-    if (enableBuildingsBuy && parseFloat(document.getElementById('strange7Stage4Level').innerText) != 4) {
+    if (enableBuildingsBuy && parseFloat(document.getElementById('strange7Stage4Level').innerText) != parseFloat(document.getElementById('strange7Stage4Max').innerText)) {
         if (parseFloat(document.getElementById('strange8Stage1Level').innerText) != 0) {
             buildingAutoWait = parseInt(document.getElementById('autoWaitInput').value);
         } else {
@@ -798,9 +797,14 @@ function interstellarBuyReset() {
         });
     };
 
-    var totalElements = parseFloat(document.querySelector('#building0StatTrueTotal').innerText);
+    if (document.getElementById('settingsSubtabBtnStats').classList.contains('tabActive') &&
+        document.getElementById('currentSwitch').innerText.includes('Interstellar')) {
+        totalElements = parseFloat(document.querySelector('#building0StatTrueTotal').innerText);
+    } else {
+        totalElements = 1;
+    };
 
-    if (totalElements > interstellarElementsToResetInput.value && !canDoStageReset) {
+    if (totalElements >= interstellarElementsToResetInput.value && !canDoStageReset) {
         canDoStageReset = !canDoStageReset;
     };
 
@@ -868,27 +872,35 @@ function hideShowBtnsInputs() {
                 cloudMultiplierInput.style.display = 'none';
                 interstellarText.style.display = 'none';
                 interstellarMassResetInput.style.display = 'none';
+                interstellarElementsToResetInput.style.display = 'none';
             };
             if (document.getElementById('stageWord').innerText.includes('Submerged') && cloudsText.style.display != '') {
                 cloudsText.style.display = '';
                 cloudMultiplierInput.style.display = '';
                 interstellarText.style.display = 'none';
                 interstellarMassResetInput.style.display = 'none';
+                interstellarElementsToResetInput.style.display = 'none';
             };
             if (document.getElementById('stageWord').innerText.includes('Accretion') && cloudsText.style.display == '') {
                 cloudsText.style.display = 'none';
                 cloudMultiplierInput.style.display = 'none';
                 interstellarText.style.display = 'none';
                 interstellarMassResetInput.style.display = 'none';
+                interstellarElementsToResetInput.style.display = 'none';
             };
             if (document.getElementById('stageWord').innerText.includes('Interstellar') && interstellarText.style.display == 'none') {
                 cloudsText.style.display = 'none';
                 cloudMultiplierInput.style.display = 'none';
                 interstellarText.style.display = '';
                 interstellarMassResetInput.style.display = '';
+                interstellarElementsToResetInput.style.display = '';
             };
             if (document.getElementById('stageWord').innerText.includes('Intergalactic')) {
-
+                cloudsText.style.display = 'none';
+                cloudMultiplierInput.style.display = 'none';
+                interstellarText.style.display = '';
+                interstellarMassResetInput.style.display = '';
+                interstellarElementsToResetInput.style.display = '';
             };
         } else {
             if (saveMassBtn.style.display == '') {saveMassBtn.style.display = 'none'};
