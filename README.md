@@ -7,12 +7,12 @@ https://github.com/Dimelsondroid/Fundamental/raw/main/Fundamental.user.js
 Tampermonkey itself:\
 https://www.tampermonkey.net/
 
-Current script version - 1.3.2\
+Current script version - 1.4.1\
 Will be updated upon reaching new parts of the game or if I feel something should be changed.
 
 Credits go to awWhy for making this wonderful game and Tobes for helping with code parts :)
 
-For Fundomental v.0.1.7 pre-Vacuum --> Vacuum --> pre-Intergalactic --> Void (with some limitations)
+For Fundomental v.0.1.7 pre-Vacuum --> Vacuum --> Intergalactic --> Void (with some limitations)
 
 The code is not perfect and might not take all situations into account, expect disappointment on some occasions :)\
 Buttons and Inputs have some popup tips. And some are hidden till a point.\

@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Fundamental v.0.1.7
-// @version      1.3.2
+// @version      1.4.1
 // @description  Automation for most parts of the game before you get in-game automations, tested up to and including Void.
 // @downloadURL  https://github.com/Dimelsondroid/Fundamental/raw/main/Fundamental.user.js
 // @updateURL    https://github.com/Dimelsondroid/Fundamental/raw/main/Fundamental.user.js
@@ -287,6 +287,9 @@ var blacklistForStrangeness = ["strange4Stage1", "strange7Stage1", "strange8Stag
                                 "strange5Stage3", "strange6Stage3", "strange7Stage3",
                                 "strange5Stage4", "strange6Stage4", "strange7Stage4",
                                 "strange3Stage5", "strange6Stage5"] // Exclutions for auto-strangeness. Those are automations and probably lastly needed researches
+var startCount = new Date().valueOf()
+var timeDifference = 0
+var stagnatePreventWaitSec = 60
 
 //Micro
 //var maxEnergy = 0 // do not change
@@ -331,7 +334,7 @@ var autoStrangeResearch = false
 
 //--- end of variables
 
-hideShowBtnsInputs()
+hideShowBtnsInputs();
 
 //As you might guess it is for cycling through stages in Vacuum to get data and do some job while you are away
 var vacuumCycle = setInterval(function() {
@@ -344,12 +347,9 @@ var buyAll = setInterval(function(){
     toggleCheck = [enableAll, enableBuildingsBuy, enableUpgrades, doVacuumCycle];
     hideShowBtnsInputs();
     if (enableAll) {
-//Only used for microworld reset checks if auto is not bought yet, also there's another check inside the microworld function.
-//        try {
-//            if (parseFloat(document.getElementById('strange4Stage1Level').innerText) == 0 && document.getElementById('reset1Text').innerText.includes('Discharge')) {
-//                energyCheckLoopStart = parseFloat(document.getElementById('footerStat2Span').innerText);
-//            }
-//        } catch(err) {};
+        if (!enableBuildingsBuy && !enableUpgrades) {
+            stagnatePrevent();
+        };
 
 //auto Upgrades, Research and Elements
         if (enableUpgrades) {
@@ -403,7 +403,7 @@ var buyAll = setInterval(function(){
             document.getElementById('stageReset').click();
             restoreToggles();
             maxClouds = 1;
-            canDoStageReset = !canDoStageReset;
+            if (canDoStageReset) {canDoStageReset = !canDoStageReset};
             if (document.querySelector('#strangenessTabBtn:not([style="display: none;"])') != null) {
                 buyStrangeResearchBtn.style.display = '';
             };
@@ -550,27 +550,7 @@ function microworldBuyReset() {
         document.getElementById('stageTabBtn').classList.contains('tabActive') &&
         document.getElementById('currentSwitch').innerText.includes('Microworld')) {
         document.getElementById('reset1Button').click();
-//        if (maxEnergy < parseFloat(document.getElementById('footerStat2Span').innerText) &&
-//            document.getElementById('footerStat2Name').innerText.includes('Energy')) {
-//            maxEnergy = parseFloat(document.getElementById('footerStat2Span').innerText);
-//        };
-//        if (energyCheckLoopStart > parseFloat(document.getElementById('footerStat2Span').innerText) ||
-//            parseFloat(document.getElementById('footerStat2Span').innerText) < maxEnergy) { // check if something was bought to do reset
-//            microEnergyCount += 1;
-//        };
-//        dischargeGoal = parseFloat(document.getElementById('reset1Button').innerText.split(' ')[3])
-//        currentEnergy = parseFloat(document.getElementById('footerStat2Span').innerText)
-//        if (dischargeGoal <= currentEnergy) {
-//            document.getElementById('reset1Button').click();
-//            microEnergyCount = 0;
-//            maxEnergy = 0;
-//            restoreToggles();
-//        } else if (dischargeGoal > currentEnergy && microEnergyCount >= 1) {
-//            document.getElementById('reset1Button').click();
-//            microEnergyCount = 0;
-//            maxEnergy = 0;
-//            restoreToggles();
-//        };
+        restoreToggles();
     };
 };
 
@@ -621,8 +601,11 @@ function submergedBuyReset() {
         document.getElementById('reset1Button').innerText.includes('Clouds') &&
         parseFloat(document.getElementById('reset1Button').innerText.split(' ')[2]) >= maxClouds/startCloudSaveupDividerInput.value &&
         (document.getElementById('challengeMultiline').innerText.includes('Vacuum state: true') || document.getElementById('challengeMultiline').innerText.includes('Void, active'))) {
-        if (enableBuildingsBuy) {enableBuildingsBuyBtn.click()};
-        if (enableUpgrades) {enableUpgradesBtn.click()};
+        if (enableBuildingsBuy && enableUpgrades) {
+            enableBuildingsBuyBtn.click();
+            enableUpgradesBtn.click();
+            startCount = new Date().valueOf();
+            };
         if (document.getElementById('toggleBuilding0').innerText.includes('All ON')) {
             document.getElementById('toggleBuilding0').click();
         };
@@ -846,6 +829,13 @@ function restoreToggles() {
     if (!enableBuildingsBuy) {enableBuildingsBuyBtn.click()};
     if (!enableUpgrades) {enableUpgradesBtn.click()};
     return
+};
+
+function stagnatePrevent() {
+    timeDifference = (new Date().valueOf() - startCount)/1000;
+    if (timeDifference >= stagnatePreventWaitSec) {
+        restoreToggles();
+    };
 };
 
 function hideShowBtnsInputs() {

@@ -1,10 +1,14 @@
 
+31/10/23
+v.1.4.1
+- encountered a "stagnation corner" in Submerged, added some code to prevent this + small refactoring + might help as a workaround when in-game reset automation bought
+
 30/10/23
 v.1.3.2
 - some code changes for pre-Vacuum Intergalactic
 - due to strange logic in in-game automation (buildings' automation not bought when enough currency) - made script's enhancements buying persistent (without checks if corresponding automation is bought)
 - fixes to script's conditions of buildings-buy
-- initial Interstellar\intergalactic Elements threshold set to 1.1e70 to prevent early reset on load
+- initial Interstellar\intergalactic Elements' threshold set to 1.1e70 to prevent early reset on load
 
 27/10/23
 v.1.3.1
