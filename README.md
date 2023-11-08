@@ -29,6 +29,9 @@ Building buyers skip buildings with automation bought.\
 All new buildings without Auto are prioritized to get until it's 5 of them.\
 Do not forget to switch off Reset confirmation for stages you want if you don't have automation. There's a toggle for that now and Stage reset toggle do it automatically apart from enabling Stage resets.
 
+**When in Vacuum - do hover over it's image in Stage->Advanced, so you would see 'Vacuum state: true' or script might behave as if you are pre-Vacuum.\
+If you are in Void it doesn't matter which text is on that page, both are checked to ensure you are post-Vacuum**
+
 Auto-Stage reset is triggered when cloudGoalInput field value goal is reached as an additional condition to getting Iron element.
 There's 'Stage reset' toggle and a toggle to turn on\off all other confirmations.
 
